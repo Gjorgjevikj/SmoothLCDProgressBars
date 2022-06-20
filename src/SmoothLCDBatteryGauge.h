@@ -21,7 +21,7 @@ https://github.com/Gjorgjevikj/yaLCDProgressBar.git
 #define LCDGAUGE_H
 
 #include <Arduino.h>
-#include "yaLCDpbConf.h"
+//#include "yaLCDpbConf.h"
 
 class LCDGauge
 {
