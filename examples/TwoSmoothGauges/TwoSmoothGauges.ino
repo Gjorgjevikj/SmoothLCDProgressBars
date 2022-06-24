@@ -5,15 +5,18 @@
 */
 
 #include <LiquidCrystal_I2C.h>     // if you don't have I2C version of the display, use LiquidCrystal.h library instead
-#include <SmoothLCDProgressBars.h>     
-#include <BarStyle1.h>
+#include <SmoothLCDProgressBars.h>  
+#define USE_PROGMEM
+#include <BarStyle3.h>
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
-//LiquidCrystal_I2C lcd(0x3f,16,2);    // set the LCD address to 0x3f for a 16 chars and 2 line display
+//LiquidCrystal_I2C lcd2(0x3f,16,2);    // set the LCD address to 0x3f for a 16 chars and 2 line display
 // if you don't know the I2C address of the display, use I2C scanner first (https://playground.arduino.cc/Main/I2cScanner/)
 
 LCDProgressBar pb1(10, 1, 0);
 LCDProgressBar pb2(6, 0, 8, 1);
+//LCDProgressBarT<&lcd, barStyle> pb1(10, 1, 0);
+//LCDProgressBarT<&lcd, barStyle> pb2(6, 0, 8, 1);
 
 //LCDProgressBar pb3(6, 0, 0, 2);
 //LCDProgressBar pb4(4, 1, 12, 3);
@@ -29,17 +32,30 @@ void setup()
     lcd.print("Two smoth gauges");
     delay(1000);
     LCDProgressBar::setDisplay(lcd);
+#ifdef USE_PROGMEM
+    LCDProgressBar::setStyle(&barStyle);
+#else
     LCDProgressBar::setStyle(barStyle);
+#endif
+
     pb1.init();
     pb2.init();
     //pb3.init();
     //pb4.init();
 
-    LCDProgressBar::setStyleP(&barStyleP);
-    pb1.initP();
+    //LCDProgressBar::setStyleP(&barStyleP);
+    //pb1.initP();
     lcd.clear();
 
-    
+    /*
+    Serial.println(offset_of(&LCDProgressBar::BarStyle::lANDmask));
+    Serial.println(offset_of(&LCDProgressBar::BarStyle::lORmask));
+    Serial.println(offset_of(&LCDProgressBar::BarStyle::rANDmask));
+    Serial.println(offset_of(&LCDProgressBar::BarStyle::rORmask));
+    Serial.println(offset_of(&LCDProgressBar::BarStyle::mANDmask));
+    Serial.println(offset_of(&LCDProgressBar::BarStyle::mORmask));
+    */
+
     //pb2.showBlank();
     //pb2.showAllchars();
     //byte cc[] = { 0b11111, 0b10001, 0b10001, 0b10001, 0b10001, 0b10001, 0b10001, 0b11111 };

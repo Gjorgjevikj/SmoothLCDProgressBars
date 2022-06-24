@@ -1,9 +1,15 @@
 #ifndef BAR_STYLE_SS
 #define BAR_STYLE_SS
 
-#include "BarStyles.h"
+#include <SmoothLCDProgressBars.h>     
 
-struct BarStyle barStyle = {
+#ifdef USE_PROGMEM
+static const PROGMEM struct LCDProgressBar::BarStyle
+#else
+static struct LCDProgressBar::BarStyle
+#endif
+
+barStyle = {
 { // lANDmask  
     0b00000,
     0b00000,
