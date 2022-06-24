@@ -26,6 +26,8 @@ https://github.com/Gjorgjevikj/SmoothLCDProgressBars.git
 #define SmoothLCDProgressBars_H
 
 #include <Arduino.h>
+#include <avr/pgmspace.h>
+
 
 //#include <LiquidCrystal_I2C.h>     // if you don't have I2C version of the display, use LiquidCrystal.h library instead
 //#define LCD_OBJ LiquidCrystal_I2C
@@ -36,27 +38,24 @@ https://github.com/Gjorgjevikj/SmoothLCDProgressBars.git
 #define LCD_OBJ LiquidCrystal
 #endif
 
-struct BarStyle
-{
-    byte lANDmask[8];
-    byte lORmask[8];
-    byte rANDmask[8];
-    byte rORmask[8];
-    byte mANDmask[8];
-    byte mORmask[8];
-    unsigned int lOff : 4;
-    unsigned int rOff : 4;
-};
+//#include "BarStyles.h"
 
-struct BarStyle bStyle0 = {
-    {0b00000, 0b00000, 0b00111, 0b00111, 0b00111, 0b00111, 0b00000, 0b00000},
-    {0b11111, 0b10000, 0b10000, 0b10000, 0b10000, 0b10000, 0b10000, 0b11111},
-    {0b00000, 0b00000, 0b11100, 0b11100, 0b11100, 0b11100, 0b00000, 0b00000},
-    {0b11111, 0b00001, 0b00001, 0b00001, 0b00001, 0b00001, 0b00001, 0b11111},
-    {0b00000, 0b00000, 0b11111, 0b11111, 0b11111, 0b11111, 0b00000, 0b00000},
-    {0b11111, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b11111},
-    0, 0
-};
+
+template <typename T> void PROGMEM_readAnything(const T* sce, T& dest)
+{
+    memcpy_P(&dest, sce, sizeof(T));
+}
+
+template <typename T> T PROGMEM_getAnything(const T* sce)
+{
+    static T temp;
+    memcpy_P(&temp, sce, sizeof(T));
+    return temp;
+}
+
+// number of items in an array
+template< typename T, size_t N > size_t ArraySize(T(&)[N]) { return N; }
+
 
 //template < class LCDLIB >
 class LCDProgressBar
@@ -64,6 +63,18 @@ class LCDProgressBar
 public:
     enum PixelMatrix : byte { charRows = 8, charCols = 5 };
     enum CustomChar : byte { pbBlank = 0, pbLeft, pbRight, pbFull, pbMiddle };
+    struct BarStyle
+    {
+        byte lANDmask[8];
+        byte lORmask[8];
+        byte rANDmask[8];
+        byte rORmask[8];
+        byte mANDmask[8];
+        byte mORmask[8];
+        unsigned char lOff : 4;
+        unsigned char rOff : 4;
+    };
+
 
     /// <summary>
     /// LCDProgressBar Class (2 independent progress bars can be created)
@@ -81,14 +92,20 @@ public:
     /// set the LiquidCrystal object
     /// </summary>
     /// <param name="disp">the LCD created by LiquidCrystal</param>
-    static void setDisplay(LCD_OBJ* disp)
+    static void setDisplay(LCD_OBJ & disp)
+//    static void setDisplay(LCD_OBJ* disp)
     {
-        display = disp;
+        display = &disp;
     }
     
-    static void setStyle(BarStyle * _bs)
+    static void setStyle(BarStyle & _bs)
     {
-        bs = _bs;
+        bs = &_bs;
+    }
+
+    static void setStyleP(PGM_VOID_P _bsp)
+    {
+        bspPtr = _bsp;
     }
 
     /// <summary>
@@ -97,7 +114,7 @@ public:
     void init()
     {
         // create the empty piece in the middle 
-        uint8_t t[charRows] = { 0 };    
+        uint8_t t[charRows] = { 0 };   
         for (byte i = 0; i < charRows; i++) // add the mask for the frame
             t[i] = bs->mORmask[i];
         display->createChar(byte(pbBlank), t);
@@ -117,6 +134,40 @@ public:
             t[i] = bs->rORmask[i];
         display->createChar(pbRight, t);
     }
+
+    void initP()
+    {
+        // create the empty piece in the middle 
+        uint8_t t[charRows] = { 0 };
+        uint8_t t2[charRows] = { 0 };
+
+        memcpy_P(t, ((const char *)bspPtr)+40, charRows);
+//        for (byte i = 0; i < charRows; i++) // add the mask for the frame
+//            t[i] = bs->mORmask[i];
+        display->createChar(byte(pbBlank), t);
+
+        // create the complitely filled piece in the middle 
+        memcpy_P(t2, ((const char*)bspPtr) + 32, charRows);
+        for (byte i = 0; i < charRows; i++)
+            t[i] |= t2[i];
+            //t[i] = bs->mANDmask[i] | bs->mORmask[i];
+        display->createChar(pbFull, t);
+
+        // create the full piece on the left (left edge of the frame when filled)
+        memcpy_P(t, ((const char*)bspPtr), charRows);
+        memcpy_P(t2, ((const char*)bspPtr) + 8, charRows);
+        for (byte i = 0; i < charRows; i++)
+            t[i] |= t2[i];
+//            t[i] = bs->lANDmask[i] | bs->lORmask[i];
+        display->createChar(pbLeft, t);
+
+        // create the blank piece on the right (right edge of the frame when blank)
+        memcpy_P(t, ((const char*)bspPtr + 24), charRows);
+//        for (byte i = 0; i < charRows; i++)
+//            t[i] = bs->rORmask[i];
+        display->createChar(pbRight, t);
+    }
+
 
     /// <summary>
     /// The size of the pogress bar in pixels
@@ -153,7 +204,7 @@ public:
     /// <param name="val">the filled pard of the progress bar in pixels (0-size())</param>
     void showProgress(int val)
     {
-        showProgressAlt(val, pbn);
+        showProg(val, pbn);
     }
 
     /// <summary>
@@ -162,9 +213,9 @@ public:
     /// <param name="val">the filled part of the progress bar in percent (0-100)</param>
     void showProgressPct(int val)
     {
-        showProgressAlt(val * (width * charCols) / 100, pbn);
+        showProg(val * (width * charCols) / 100, pbn);
     }
-
+    /*
     void showBlank(void)
     {
         int n = width;
@@ -200,14 +251,14 @@ public:
         display->setCursor(col, row);
         display->write(byte(pbMiddle));
     }
-
+    */
 protected:
     /// <summary>
     /// Draws the progress bar
     /// </summary>
     /// <param name="val">the filled part of the progress bar in pixels</param>
-    /// <param name="alt">the first or the second bar</param>
-    void showProgressAlt(int val, byte n)
+    /// <param name="n">0-3 which one of the 4 possible progress bars</param>
+    void showProg(int val, byte n)
     {
         //CreateCustomChars(val, alt);
         int full, blank, partial;
@@ -215,15 +266,15 @@ protected:
         partial = (val > charCols && val < (width - 1)* charCols);
         blank = max(0, width - full - 2 - partial);
 
-        char buffer[16];
+        //char buffer[16];
         //display->setCursor(0, 1);                           
-        sprintf(buffer, "%2d:%d+%d+%d w%2d", val, full, partial, blank, width);
+        //sprintf(buffer, "%2d:%d+%d+%d w%2d", val, full, partial, blank, width);
         //display->setCursor(0, 1);
         //display->print(buffer);                            */
         //Serial.print(buffer);
 
 
-        uint8_t mask = 0b11111;
+        uint8_t mask; // = 0b11111;
         //mask <<= charCols - (val % charCols);
         mask = createFillMask(val % charCols);
         //Serial.print(mask,HEX);
@@ -366,14 +417,18 @@ protected:
     */
 
     static LCD_OBJ * display; // refference to the display object
-    static BarStyle* bs;
+//    static union barStylePtr {
+        static BarStyle* bs;
+        static PGM_VOID_P bspPtr;
+//    } bs;
     byte width; // progress bar width in characters
     byte row; // row position of the progress bar
     byte col; // column position of the progress bar
-    byte pbn; // first or second progress bar
+    byte pbn; // progress bar number 0-4
 };
 
-BarStyle* LCDProgressBar::bs = &bStyle0;
+LCDProgressBar::BarStyle* LCDProgressBar::bs = NULL;
+PGM_VOID_P LCDProgressBar::bspPtr = NULL;
 LCD_OBJ* LCDProgressBar::display = NULL;
 
 #endif
