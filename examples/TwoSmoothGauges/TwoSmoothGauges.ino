@@ -15,8 +15,6 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);  // set the LCD address to 0x27 for a 16 cha
 
 LCDProgressBar pb1(10, 1, 0);
 LCDProgressBar pb2(6, 0, 8, 1);
-//LCDProgressBarT<&lcd, barStyle> pb1(10, 1, 0);
-//LCDProgressBarT<&lcd, barStyle> pb2(6, 0, 8, 1);
 
 //LCDProgressBar pb3(6, 0, 0, 2);
 //LCDProgressBar pb4(4, 1, 12, 3);
@@ -43,31 +41,9 @@ void setup()
     //pb3.init();
     //pb4.init();
 
-    //LCDProgressBar::setStyleP(&barStyleP);
-    //pb1.initP();
     lcd.clear();
 
-    /*
-    Serial.println(offset_of(&LCDProgressBar::BarStyle::lANDmask));
-    Serial.println(offset_of(&LCDProgressBar::BarStyle::lORmask));
-    Serial.println(offset_of(&LCDProgressBar::BarStyle::rANDmask));
-    Serial.println(offset_of(&LCDProgressBar::BarStyle::rORmask));
-    Serial.println(offset_of(&LCDProgressBar::BarStyle::mANDmask));
-    Serial.println(offset_of(&LCDProgressBar::BarStyle::mORmask));
-    */
-
-    //pb2.showBlank();
-    //pb2.showAllchars();
-    //byte cc[] = { 0b11111, 0b10001, 0b10001, 0b10001, 0b10001, 0b10001, 0b10001, 0b11111 };
-    //pb2.defShow(cc);
-
-    //lcd.createChar(4, cc);
-    //lcd.init();
-    //lcd.setCursor(0, 0);
-    //lcd.write(byte(4));
-
     delay(500);
-
 }
 
 void loop()
