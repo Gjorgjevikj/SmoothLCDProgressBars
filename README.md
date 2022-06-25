@@ -1,3 +1,5 @@
+under developement...
+
 # SmoothLCDProgressBars
 
 Library for displaying smooth progress bars on the character based LCD displays for Arduino
