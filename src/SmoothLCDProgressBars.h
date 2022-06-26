@@ -82,8 +82,11 @@ public:
         uint8_t rORmask[8];
         uint8_t mANDmask[8];
         uint8_t mORmask[8];
-        unsigned char lOff : 4;
-        unsigned char rOff : 4;
+        struct BarOffsets
+        {
+            unsigned char lOff : 4;
+            unsigned char rOff : 4;
+        } offset;
     };
 
     /// <summary>
@@ -130,7 +133,19 @@ public:
     /// <returns>the width of the progress bar in pixels</returns>
     int size() const
     {
-        return par.width * charCols;
+        //return par.width * charCols;
+        if (masksInFlash)
+        {
+            // endian dependant ??!!!
+            uint8_t m=pgm_read_byte((const char*)bs.bspPtr + offset_of(&LCDProgressBar::BarStyle::offset));
+            return par.width * charCols - ((m & 0x0f) + (m >> 4));
+            // endian independant - slower
+            //BarStyle::BarOffsets m;
+            //memcpy_P(&m, ((const char*)bs.bspPtr) + offset_of(&LCDProgressBar::BarStyle::offset), 1);
+            //return par.width * charCols - m.lOff - m.rOff;
+        }
+        else 
+            return par.width * charCols - bs.bsPtr->offset.lOff - bs.bsPtr->offset.rOff;
     }
 
     /// <summary>
@@ -151,27 +166,6 @@ public:
     {
         par.row = r;
         par.col = c;
-    }
-
-    // to be moved in protected
-    void prepChar(byte udChr, const uint8_t* orMask, const uint8_t* andMask, uint8_t mask = 0b11111)
-    {
-        uint8_t t[charRows];
-        for (byte i = 0; i < charRows; i++)
-            t[i] = (mask & andMask[i]) | orMask[i];
-        display->createChar(udChr, t);
-    }
-
-    // for masks in PROGMEM
-    void prepChar(byte udChr, const char * orMask, const char * andMask, uint8_t mask = 0b11111)
-    {
-        uint8_t ta[charRows];
-        uint8_t to[charRows];
-        memcpy_P(ta, andMask, charRows);
-        memcpy_P(to, orMask, charRows);
-        for (byte i = 0; i < charRows; i++)
-            ta[i] = (ta[i] & mask) | to[i];
-        display->createChar(udChr, ta);
     }
 
     /// <summary>
@@ -212,7 +206,23 @@ public:
     /// <param name="val">the filled pard of the progress bar in pixels (0-size())</param>
     void showProgress(int val)
     {
-        showProg(val, par.pbn);
+        if (masksInFlash)
+        {
+            uint8_t m = pgm_read_byte((const char*)bs.bspPtr + offset_of(&LCDProgressBar::BarStyle::offset));
+            // endian dependant !!!
+            showProg(val + (m & 0x0f), par.pbn); // ((m & 0x0f) 
+            //Serial.println((m & 0x0f));
+            // endian independant - slower
+            //BarStyle::BarOffsets m;
+            //memcpy_P(&m, ((const char*)bs.bspPtr) + offset_of(&LCDProgressBar::BarStyle::offset), 1);
+            //showProg(val + m.lOff, par.pbn); 
+
+        }
+        else
+        {
+            showProg(val + bs.bsPtr->offset.lOff, par.pbn);
+            //Serial.println(bs.bsPtr->offset.lOff);
+        }
     }
 
     /// <summary>
@@ -221,10 +231,52 @@ public:
     /// <param name="val">the filled part of the progress bar in percent (0-100)</param>
     void showProgressPct(int val)
     {
-        showProg(val * (par.width * charCols) / 100, par.pbn);
+        showProgress((val * size()) / 100);
     }
 
 protected:
+
+    /// <summary>
+    /// Creates an user defined character on position udChar by filling the 5x8 matrix 
+    /// with the mask in all 8 rows, than ANDing by the bitmatrix given by andMask 
+    /// (turning off some of the bits forming the gauge) and finally ORing with the 
+    /// bitmatrix given by orMask (turning on some of the bits defining the frame of the gauge)
+    /// </summary>
+    /// <param name="udChr">the postion (code 0-7) of the user definable character to be created</param>
+    /// <param name="orMask">char[8] OR mask</param>
+    /// <param name="andMask">char[8] AND mask</param>
+    /// <param name="mask">the mask used to smooth fill in the character left to right</param>
+    void prepChar(byte udChr, const uint8_t* orMask, const uint8_t* andMask, uint8_t mask = 0b11111)
+    {
+        uint8_t t[charRows];
+        for (byte i = 0; i < charRows; i++)
+            t[i] = (mask & andMask[i]) | orMask[i];
+        display->createChar(udChr, t);
+    }
+
+    // for masks in PROGMEM
+
+    /// <summary>
+    /// Creates an user defined character on position udChar by filling the 5x8 matrix 
+    /// with the mask in all 8 rows, than ANDing by the bitmatrix given by andMask 
+    /// (turning off some of the bits forming the gauge) and finally ORing with the 
+    /// bitmatrix given by orMask (turning on some of the bits defining the frame of the gauge)
+    /// </summary>
+    /// <param name="udChr">the postion (code 0-7) of the user definable character to be created</param>
+    /// <param name="orMask">char[8] OR mask stored in PROGMEM</param>
+    /// <param name="andMask">char[8] AND mask stored in PROGMEM</param>
+    /// <param name="mask">the mask used to smooth fill in the character left to right</param>
+    void prepChar(byte udChr, const char* orMask, const char* andMask, uint8_t mask = 0b11111)
+    {
+        uint8_t ta[charRows];
+        uint8_t to[charRows];
+        memcpy_P(ta, andMask, charRows);
+        memcpy_P(to, orMask, charRows);
+        for (byte i = 0; i < charRows; i++)
+            ta[i] = (ta[i] & mask) | to[i];
+        display->createChar(udChr, ta);
+    }
+
     /// <summary>
     /// Draws the progress bar
     /// </summary>
@@ -232,7 +284,6 @@ protected:
     /// <param name="n">0-3 which one of the 4 possible progress bars</param>
     void showProg(int val, byte n)
     {
-        //CreateCustomChars(val, alt);
         int full, blank, partial;
         full = min(max(0, val / charCols - 1), par.width - 2);
         partial = (val > charCols && val < (par.width - 1)* charCols);

@@ -6,8 +6,8 @@
 
 #include <LiquidCrystal_I2C.h>     // if you don't have I2C version of the display, use LiquidCrystal.h library instead
 #include <SmoothLCDProgressBars.h>  
-#define USE_PROGMEM
-#include <BarStyle3.h>
+//#define USE_PROGMEM
+#include <BarStyle1.h>
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 //LiquidCrystal_I2C lcd2(0x3f,16,2);    // set the LCD address to 0x3f for a 16 chars and 2 line display
@@ -19,7 +19,8 @@ LCDProgressBar pb2(6, 0, 8, 1);
 //LCDProgressBar pb3(6, 0, 0, 2);
 //LCDProgressBar pb4(4, 1, 12, 3);
 
-unsigned int gauge = 0;       
+unsigned int gauge1 = 0;       
+unsigned int gauge2 = 0;
 char buffer[16];         // helper buffer to store C-style strings (generated with sprintf function)
 
 void setup()
@@ -43,29 +44,48 @@ void setup()
 
     lcd.clear();
 
+    Serial.println(pb1.size());
+    Serial.println(pb2.size());
+
     delay(500);
 }
 
 void loop()
 {
     lcd.setCursor(0, 0);                           // move cursor to top left
-    sprintf(buffer, "val:%3d ", gauge % (8 * 5));  // set a string as val: XX% 
+    sprintf(buffer, "val:%3d ", gauge2);  // set a string as val: XX% 
     lcd.print(buffer);                             // print the string on the display
 
-    pb1.showProgressPct(gauge % 100);
-    
-    pb2.showProgress(gauge % pb2.size());
+    pb1.showProgressPct(gauge1);
+    pb2.showProgress(gauge2);
 
-    sprintf(buffer, "%3d%% ", gauge % 100);       // set a string as XX%, with the number always taking at least 3 character
+    sprintf(buffer, "%3d%% ", gauge1);       // set a string as XX%, with the number always taking at least 3 character
     lcd.setCursor(12, 1);
     lcd.print(buffer);                            // print the string on the display
     
     //pb3.showProgressPct(gauge % 100);
     //pb4.showProgress(gauge % pb4.size());
 
-    gauge++;
-    if (gauge < 0) { gauge = 0; }
+    if (
+/*        gauge2 == 0
+        || gauge2 == 1 
+        || gauge2 == pb2.size() 
+        || gauge2 == pb2.size() - 1
+        || gauge2 == pb2.size() - 2
+        ||  */ gauge1 < 5
+        || gauge1 > 95)
+        delay(1000);  // wait for a while 
 
-    delay(200);  // wait for a while 
+    gauge1++;
+    gauge2++;
+
+    if (gauge1 > 100)
+        gauge1 = 0;
+    if (gauge2 > pb2.size())
+        gauge2 = 0;
+
+//    if (gauge < 0) { gauge = 0; }
+
+    delay(100);  // wait for a while 
     //lcd.clear();
 }
