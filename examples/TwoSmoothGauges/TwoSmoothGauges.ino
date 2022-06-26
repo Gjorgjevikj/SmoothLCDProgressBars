@@ -7,7 +7,7 @@
 #include <LiquidCrystal_I2C.h>     // if you don't have I2C version of the display, use LiquidCrystal.h library instead
 #include <SmoothLCDProgressBars.h>  
 //#define USE_PROGMEM
-#include <BarStyle1.h>
+#include <BarStyleBAT.h>
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 //LiquidCrystal_I2C lcd2(0x3f,16,2);    // set the LCD address to 0x3f for a 16 chars and 2 line display
@@ -39,13 +39,16 @@ void setup()
 
     pb1.init();
     pb2.init();
+    pb1.setWidth(5);
+    //pb2.setWidth(3);
     //pb3.init();
     //pb4.init();
 
     lcd.clear();
 
-    Serial.println(pb1.size());
-    Serial.println(pb2.size());
+    //Serial.println(pb1.size());
+   ///Serial.println(pb2.size());
+
 
     delay(500);
 }
@@ -67,14 +70,14 @@ void loop()
     //pb4.showProgress(gauge % pb4.size());
 
     if (
-/*        gauge2 == 0
+        gauge2 == 0
         || gauge2 == 1 
         || gauge2 == pb2.size() 
         || gauge2 == pb2.size() - 1
         || gauge2 == pb2.size() - 2
-        ||  */ gauge1 < 5
+        || gauge1 < 5
         || gauge1 > 95)
-        delay(1000);  // wait for a while 
+        delay(500);  // wait for a while 
 
     gauge1++;
     gauge2++;

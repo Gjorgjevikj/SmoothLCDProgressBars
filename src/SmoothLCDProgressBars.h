@@ -131,7 +131,7 @@ public:
     /// The size of the pogress bar in pixels
     /// </summary>
     /// <returns>the width of the progress bar in pixels</returns>
-    int size() const
+    unsigned int size() const
     {
         //return par.width * charCols;
         if (masksInFlash)
