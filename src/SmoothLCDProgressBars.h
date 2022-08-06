@@ -72,16 +72,38 @@ template <typename T1, typename T2>
 inline constexpr size_t offset_of(T1 T2::* member) {
     return offset_of_impl<T1, T2>::offset(member);
 }
+/*
+template <unsigned int N>
+struct Mask
+{
+    static unsigned int const value = (1 << (N + 1)) - 1;
+};
+
+template <>
+struct Mask<0>
+{
+    static unsigned int const value = 0;
+};
+*/
+
+template <const unsigned char N> const unsigned char Mask()
+{
+    return ((1 << N) - 1);
+}
 
 enum MemoryType { RAM = 0, FLASH = 1, DATA = 0, PROG = 1 };
-//enum PixelMatrix : byte { CharPatRows = 8, CharPatCols = 5 };
+enum BarOrientation : byte { Horizontal, Vertical };
+//enum ByteMasks : byte { =3, =4, =5, =6, =7, =8};
 
 struct barstyle
 {
-    enum DotMatrixDim : byte { CharPatRows = 8, CharPatCols = 5 };
-    enum AndOrMaskIndex : byte { ANDmask, ORmask };
-    uint8_t leftMask[2][CharPatRows]; // Left/Bottom-AND+OR
-    uint8_t rightMask[2][CharPatRows]; // Right/Top-AND+OR
+    enum dotMatrixDim : byte { CharPatRows = 8, CharPatCols = 5 };
+//    enum bitMasks : byte { AllRows = Mask<CharPatRows>::value, AllCols = Mask<CharPatCols>::value };
+//    enum bitMasks : byte { AllRows = Mask<CharPatRows>(), AllCols = Mask<CharPatCols>()};
+    enum bitMasks : byte { AllRows = 0b11111111, AllCols = 0b00011111};
+    enum andOrMaskIndex : byte { ANDmask, ORmask };
+    uint8_t startMask[2][CharPatRows]; // Left/Bottom-AND+OR
+    uint8_t endMask[2][CharPatRows]; // Right/Top-AND+OR
     uint8_t middleMask[2][CharPatRows]; // Middle-AND+OR 
     struct BarOffsets // where the filling of the prograss bar actually starts/ends considerng that some pixels are taken for the frame
     {
@@ -128,13 +150,13 @@ public:
         display->createChar(ProgBarCharBlank, const_cast<uint8_t *>(barStyle->middleMask[barstyle::ORmask]));
         // create the completely filled piece in the middle 
         makeChar(ProgBarCharFull, barStyle->middleMask);
-        // create the full piece on the left (left edge of the frame when filled)
-        makeChar(ProgBarCharBegin, barStyle->leftMask);
-        // create the blank piece on the right (right edge of the frame when blank)
-        display->createChar(ProgBarCharEnd, const_cast<uint8_t*>(barStyle->rightMask[barstyle::ORmask])); // .getBitMask<barstyle::MiddleOR>())); //barStyle.bs->mORmask);
+        // create the full piece at the begining (left edge of the frame when filled, bottom on vertical progress bar)
+        makeChar(ProgBarCharBegin, barStyle->startMask);
+        // create the blank piece at the end (right edge of the frame when blank, top on vertical progress bar)
+        display->createChar(ProgBarCharEnd, const_cast<uint8_t*>(barStyle->endMask[barstyle::ORmask])); // .getBitMask<barstyle::MiddleOR>())); //barStyle.bs->mORmask);
     }
 
-    void makeChar(byte udChr, const uint8_t xMask[2][barstyle::CharPatRows], uint8_t mask = 0b11111) const
+    void makeChar(byte udChr, const uint8_t xMask[2][barstyle::CharPatRows], uint8_t mask = barstyle::AllCols) const
     {
         uint8_t t[barstyle::CharPatRows];
         for (byte i = 0; i < barstyle::CharPatRows; i++)
@@ -166,7 +188,6 @@ public:
 
     uint8_t getStartOffset() const
     {
-        //uint8_t m = pgm_read_byte((const char*)barStyle +offset_of(&barstyle::offset));
         uint8_t m = pgm_read_byte(&(barStyle->offset)); 
         return (uint8_t)((reinterpret_cast<struct barstyle::BarOffsets*>(&m))->startOffset);
     }
@@ -183,18 +204,32 @@ public:
         createChar(ProgBarCharBlank, reinterpret_cast<PGM_VOID_P>(barStyle->middleMask[barstyle::ORmask]));
         // create the completely filled piece in the middle 
         makeChar(ProgBarCharFull, reinterpret_cast<PGM_VOID_P>(barStyle->middleMask));
-        // create the full piece on the left (left edge of the frame when filled)
-        makeChar(ProgBarCharBegin, reinterpret_cast<PGM_VOID_P>(barStyle->leftMask));
-        // create the blank piece on the right (right edge of the frame when blank)
-        createChar(ProgBarCharEnd, reinterpret_cast<PGM_VOID_P>(barStyle->rightMask[barstyle::ORmask])); // .getBitMask<barstyle::MiddleOR>())); //barStyle.bs->mORmask);
+        // create the full piece at the begining (left edge of the frame when filled, bottom on vertical progress bar)
+        makeChar(ProgBarCharBegin, reinterpret_cast<PGM_VOID_P>(barStyle->startMask));
+        // create the blank piece at the end (right edge of the frame when blank, top on vertical progress bar)
+        createChar(ProgBarCharEnd, reinterpret_cast<PGM_VOID_P>(barStyle->endMask[barstyle::ORmask])); // .getBitMask<barstyle::MiddleOR>())); //barStyle.bs->mORmask);
     }
 
-    void makeChar(byte udChr, PGM_VOID_P andorMask, uint8_t mask = 0b11111) const
+    void makeChar(byte udChr, PGM_VOID_P andorMask, uint8_t mask = barstyle::AllCols) const
     {
         uint8_t tao[2][barstyle::CharPatRows];
         memcpy_P(tao, andorMask, barstyle::CharPatRows<<1);
         for (byte i = 0; i < barstyle::CharPatRows; i++)
             tao[0][i] = (tao[0][i] & mask) | tao[1][i];
+        display->createChar(udChr, tao[0]);
+    }
+
+    void makeCharV(byte udChr, PGM_VOID_P andorMask, uint8_t mask = barstyle::AllRows) const
+    {
+        uint8_t tao[2][barstyle::CharPatRows];
+        memcpy_P(tao, andorMask, barstyle::CharPatRows << 1);
+        for (byte i = 0; i < barstyle::CharPatRows; i++, mask>>=1)
+        {
+            if(mask & 1)
+                tao[0][i] = tao[0][i] | tao[1][i];
+            else
+                tao[0][i] = tao[1][i];
+        }
         display->createChar(udChr, tao[0]);
     }
 
@@ -214,12 +249,12 @@ protected:
 class BarPos
 {
 public:
-    BarPos(byte _width, byte _row, byte _col, byte _id = 0) : par(ProgBarPar{ _width, _row, _col, _id }) { }
-    // { par.width = _width; par.row = _row; par.col = _col; par.id = _id; }
+    BarPos(byte _width, byte _row, byte _col, byte _id = 0) 
+        : par(ProgBarPar{ _width, _row, _col, _id }) { }
 
-    void setWidth(int _width) // in characters 
+    void setLength(int _len) // in characters 
     {
-        par.width = _width;
+        par.len = _len;
     }
 
     void setPosition(byte _row, byte _col)
@@ -231,35 +266,44 @@ public:
 protected:
     struct ProgBarPar
     {
-        byte width : 6; // progress bar width in characters
+        byte len : 6; // progress bar length in characters
         byte row : 2; // row position of the progress bar
         byte col : 6; // column position of the progress bar
-        byte id : 2; // progress bar number 0-3 (should be const)
+        byte id  : 2; // progress bar number 0-3 (should be const)
     } par;
 };
 
-template <class DISP>
-class ProgressBar : public BarPos
+
+template <class DISP, BarOrientation = Horizontal >
+class ProgressBar : public BarPos {};
+
+template <class DISP >
+class ProgressBar < DISP, Horizontal > : public BarPos
 {
 private:
     ProgressBar(byte _width, byte _row, byte _col, byte _pbn = 0)
         : BarPos(_width, _row, _col, _pbn) { }
 
 public: 
+    /// <summary>
+    /// Creates ProgressBar object
+    /// </summary>
+    /// <typeparam name="DISP">the display on which it is shown</typeparam>
+    /// <typeparam name="len">the length of the prograss bar in characters</typeparam>
+    /// <typeparam name="row">position: the row of the start end of the progressbar</typeparam>
+    /// <typeparam name="col">position: the column of the start end of the progressbar</typeparam>
+    /// <typeparam name="id">the id of the progressbar (4 supported: 0-3)</typeparam>
     ProgressBar(DISP& disp, byte _width, byte _row, byte _col, byte _pbn = 0)
         : BarPos(_width, _row, _col, _pbn), displ(disp) { }
  
-    //void setDispl(DISP& disp) { displ = disp; }
-
     unsigned int size() const
     {
-        return par.width * barstyle::CharPatCols - displ.getStartOffset() - displ.getEndOffset();
+        return par.len * barstyle::CharPatCols - displ.getStartOffset() - displ.getEndOffset();
     }
 
     void showProgress(int val)
     {
-        //ckecking limits:
-        //showProg(min(val + displ.getStartOffset(), size()-1), par.id);
+        //ckecking limits: showProg(min(val + displ.getStartOffset(), size()-1), par.id);
         showProg(val + displ.getStartOffset(), par.id);
     }
 
@@ -270,18 +314,18 @@ protected:
     void showProg(int val, byte n)
     {
         int full, blank, partial;
-        full = min(max(0, val / barstyle::CharPatCols - 1), par.width - 2);
-        partial = (val > barstyle::CharPatCols && val < (par.width - 1)* barstyle::CharPatCols);
-        blank = max(0, par.width - full - 2 - partial);
+        full = min(max(0, val / barstyle::CharPatCols - 1), par.len - 2);
+        partial = (val > barstyle::CharPatCols && val < (par.len - 1)* barstyle::CharPatCols);
+        blank = max(0, par.len - full - 2 - partial);
 
-        uint8_t mask = (0b11111 << (barstyle::CharPatCols - (val % barstyle::CharPatCols))) & 0b11111;
+        uint8_t mask = (barstyle::AllCols << (barstyle::CharPatCols - (val % barstyle::CharPatCols))) & barstyle::AllCols;
 
         if (val < barstyle::CharPatCols) // still filling the first block, create and use the middle char
-            displ.makeChar(DISP::ProgBarPartial + n, displ.getStyle().leftMask, mask);
+            displ.makeChar(DISP::ProgBarPartial + n, displ.getStyle().startMask, mask);
         if (partial)
             displ.makeChar(DISP::ProgBarPartial + n, displ.getStyle().middleMask, mask);
-        if (val > (par.width - 1) * barstyle::CharPatCols) // last block partially (or fully) filled, create and use the middle char
-            displ.makeChar(DISP::ProgBarPartial + n, displ.getStyle().rightMask, mask);
+        if (val > (par.len - 1) * barstyle::CharPatCols) // last block partially (or fully) filled, create and use the middle char
+            displ.makeChar(DISP::ProgBarPartial + n, displ.getStyle().endMask, mask);
 
         displ.getDisplay()->setCursor(par.col, par.row);
 
@@ -299,7 +343,7 @@ protected:
             displ.getDisplay()->write(DISP::ProgBarCharBlank);
         }
 
-        if (val > (par.width - 1) * barstyle::CharPatCols) // last block partially (or fully) filled, create and use the middle char
+        if (val > (par.len - 1) * barstyle::CharPatCols) // last block partially (or fully) filled, create and use the middle char
         {
             displ.getDisplay()->write(DISP::ProgBarPartial + n);
         }
@@ -311,6 +355,86 @@ protected:
 //data
     const DISP & displ; // pointer to the display wraper object
 };
+
+template <class DISP >
+class ProgressBar < DISP, Vertical > : public BarPos
+{
+private:
+    ProgressBar(byte _width, byte _row, byte _col, byte _pbn = 0)
+        : BarPos(_width, _row, _col, _pbn) { }
+
+public:
+    ProgressBar(DISP& disp, byte _width, byte _row, byte _col, byte _pbn = 0)
+        : BarPos(_width, _row, _col, _pbn), displ(disp) { }
+
+    unsigned int size() const
+    {
+        return par.len * barstyle::CharPatRows - displ.getStartOffset() - displ.getEndOffset();
+    }
+
+    void showProgress(int val)
+    {
+        //ckecking limits: showProg(min(val + displ.getStartOffset(), size()-1), par.id);
+        showProg(val + displ.getStartOffset(), par.id);
+    }
+
+    void showProgressPct(int val) { showProgress((val * size()) / 100); }
+
+protected:
+
+    void showProg(int val, byte n)
+    {
+        int full, blank, partial;
+        full = min(max(0, val / barstyle::CharPatRows - 1), par.len - 2);
+        partial = (val > barstyle::CharPatRows && val < (par.len - 1)* barstyle::CharPatRows);
+        blank = max(0, par.len - full - 2 - partial);
+
+        uint8_t mask = (barstyle::AllRows << (barstyle::CharPatRows - (val % barstyle::CharPatRows)));
+
+        if (val < barstyle::CharPatRows) // still filling the first block, create and use the middle char
+            displ.makeCharV(DISP::ProgBarPartial + n, displ.getStyle().startMask, mask);
+        if (partial)
+            displ.makeCharV(DISP::ProgBarPartial + n, displ.getStyle().middleMask, mask);
+        if (val > (par.len - 1) * barstyle::CharPatRows) // last block partially (or fully) filled, create and use the middle char
+            displ.makeCharV(DISP::ProgBarPartial + n, displ.getStyle().endMask, mask);
+
+        displ.getDisplay()->setCursor(par.col, par.row);
+
+        byte crow = par.row;
+        displ.getDisplay()->write((val < barstyle::CharPatRows) ? (DISP::ProgBarPartial + n) : DISP::ProgBarCharBegin);
+        while (full--)
+        {
+            displ.getDisplay()->setCursor(par.col, --crow);
+            displ.getDisplay()->write(DISP::ProgBarCharFull);
+        }
+        if (partial)
+        {
+            displ.getDisplay()->setCursor(par.col, --crow);
+            displ.getDisplay()->write(DISP::ProgBarPartial + n);
+        }
+        while (blank--)
+        {
+            displ.getDisplay()->setCursor(par.col, --crow);
+            displ.getDisplay()->write(DISP::ProgBarCharBlank);
+        }
+
+        displ.getDisplay()->setCursor(par.col, --crow);
+        if (val > (par.len - 1) * barstyle::CharPatRows) // last block partially (or fully) filled, create and use the middle char
+        {
+            displ.getDisplay()->write(DISP::ProgBarPartial + n);
+        }
+        else
+        {
+            displ.getDisplay()->write(DISP::ProgBarCharEnd);
+        }
+    }
+    //data
+    const DISP& displ; // pointer to the display wraper object
+};
+
+typedef LCDDisplay < LCD_OBJ > LCD;
+typedef ProgressBar < LCDDisplay< LCD_OBJ > > SmoothProgressBar;
+
 
 /*
 void dbgPrintM(uint8_t x[8], char *s)

@@ -7,24 +7,27 @@
 #include <LiquidCrystal_I2C.h>     // if you don't have I2C version of the display, use LiquidCrystal.h library instead
 #include <SmoothLCDProgressBars.h>  
 //#define USE_PROGMEM
-#include <BarStyle3.h>
+#include <BarStyleV4.h>
 #include <BarStyle1.h>
+//#include <BarStyle0.h>
 
 LiquidCrystal_I2C lcd(0x26, 16, 2);  // set the LCD address to 0x26 for a 16 chars and 2 line display
 LiquidCrystal_I2C lcd2(0x27, 20, 4);  // set the LCD address to 0x27 for a 20 chars and 4 line display
 //LiquidCrystal_I2C lcd2(0x3f,16,2);    // set the LCD address to 0x3f for a 16 chars and 2 line display
 // if you don't know the I2C address of the display, use I2C scanner first (https://playground.arduino.cc/Main/I2cScanner/)
 
-LCDDisplay < LiquidCrystal_I2C > dispA(lcd, barStyle1);
-LCDDisplay < LiquidCrystal_I2C, FLASH > dispB(lcd2, barStyle3);
+LCD dispA(lcd, barStyle1);
+LCDDisplay < LiquidCrystal_I2C, FLASH > dispB(lcd2, barStyleV4);
 
-ProgressBar< LCDDisplay< LiquidCrystal_I2C > > pb1(dispA, 10, 1, 0);
+SmoothProgressBar pb1(dispA, 10, 1, 0);
 ProgressBar< LCDDisplay< LiquidCrystal_I2C > > pb2(dispA, 6, 0, 8, 1);
-ProgressBar< LCDDisplay< LiquidCrystal_I2C, FLASH > > pb3(dispB, 16, 2, 2, 0);
+ProgressBar< LCDDisplay< LiquidCrystal_I2C, FLASH > > pb3(dispB, 12, 2, 2, 0);
+ProgressBar< LCDDisplay< LiquidCrystal_I2C >, Vertical > pb4(dispB, 4, 3, 18, 1);
 
 unsigned int gauge1 = 0;       
 unsigned int gauge2 = 0;
 unsigned int gauge3 = 0;
+unsigned int gauge4 = 0;
 char buffer[16];         // helper buffer to store C-style strings (generated with sprintf function)
 
 void setup()
@@ -90,6 +93,7 @@ void loop()
     pb1.showProgressPct(gauge1);
     pb2.showProgress(gauge2);
     pb3.showProgress(gauge3);
+    pb4.showProgress(gauge4);
 
     sprintf(buffer, "%3d%% ", gauge1);       // set a string as XX%, with the number always taking at least 3 character
     lcd.setCursor(12, 1);
@@ -114,15 +118,18 @@ void loop()
         delay(500);  // wait for a while 
 
     gauge1++;
-    gauge2++;
-    gauge3++;
 
     if (gauge1 > 100)
         gauge1 = 0;
+    gauge2++;
     if (gauge2 > pb2.size())
         gauge2 = 0;
+    gauge3++;
     if (gauge3 > pb3.size())
         gauge3 = 0;
+    gauge4++;
+    if (gauge4 > pb4.size())
+        gauge4 = 0;
 
      //    if (gauge < 0) { gauge = 0; }
 
