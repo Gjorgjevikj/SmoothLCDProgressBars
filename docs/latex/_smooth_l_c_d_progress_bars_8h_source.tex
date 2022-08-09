@@ -1,0 +1,328 @@
+\hypertarget{_smooth_l_c_d_progress_bars_8h_source}{}\doxysection{Smooth\+LCDProgress\+Bars.\+h}
+\label{_smooth_l_c_d_progress_bars_8h_source}\index{src/SmoothLCDProgressBars.h@{src/SmoothLCDProgressBars.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#ifndef SMOOTH\_LCD\_PROGRESS\_BARS\_H}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#define SMOOTH\_LCD\_PROGRESS\_BARS\_H}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#include <barstyle.h>}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{comment}{//try to determine the LCD library included}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#if defined(LiquidCrystal\_I2C\_h) }}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#define LCD\_OBJ LiquidCrystal\_I2C}}
+\DoxyCodeLine{41 \textcolor{comment}{// uses init();}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#elif defined(FDB\_LIQUID\_CRYSTAL\_I2C\_H)}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#define LCD\_OBJ LiquidCrystal\_I2C}}
+\DoxyCodeLine{44 \textcolor{comment}{// uses begin();}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#elif defined(LiquidCrystal\_h)}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#define LCD\_OBJ LiquidCrystal}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define LCD\_OBJ ERROR\_NO\_LCD\_OBJ}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#error "{}No supported LiquidCrystal library included. Please check that the LiquidCrystal library is included BEFORE SmoothLCDProgressBars.h"{}}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{comment}{// constants to specify where there the data for the progress bar style (bit-\/masks) are stored in memory (SRAM) or in flash (PROGMEM)}}
+\DoxyCodeLine{53 \textcolor{keyword}{enum} MemoryType \{ RAM = 0, FLASH = 1, DATA = 0, PROG = 1 \};}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{keyword}{class }\_\_FlashBarStyleHelper;}
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#define FBS(style) (reinterpret\_cast<const \_\_FlashBarStyleHelper *>(style))}}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{65 \textcolor{keyword}{class }\mbox{\hyperlink{classin_p_r_o_g_m_e_m}{inPROGMEM}}}
+\DoxyCodeLine{66 \{}
+\DoxyCodeLine{67 \textcolor{keyword}{public}:}
+\DoxyCodeLine{73     \mbox{\hyperlink{classin_p_r_o_g_m_e_m_aff07cd7ab79e471034fe2626e8bab456}{inPROGMEM}}(\textcolor{keyword}{const} \mbox{\hyperlink{structbarstyle}{barstyle}}\& bs) : bsp(\&bs) \{\}}
+\DoxyCodeLine{74     \textcolor{keyword}{inline} \textcolor{keyword}{const} \mbox{\hyperlink{structbarstyle}{barstyle}}* unwrap()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} bsp; \}}
+\DoxyCodeLine{75 \textcolor{keyword}{private}:}
+\DoxyCodeLine{76     \textcolor{keyword}{const} \mbox{\hyperlink{structbarstyle}{barstyle}}* bsp;}
+\DoxyCodeLine{77 \};}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79 \textcolor{keyword}{template} <\textcolor{keyword}{class} DISP = LCD\_OBJ>}
+\DoxyCodeLine{80 \textcolor{keyword}{class }\mbox{\hyperlink{class_bar_display}{BarDisplay}}}
+\DoxyCodeLine{81 \{}
+\DoxyCodeLine{82 \textcolor{keyword}{public}:}
+\DoxyCodeLine{83     \textcolor{comment}{// constants defining which character positions for the user definable characters will be used for what purpose when drawing the progress bar}}
+\DoxyCodeLine{84     \textcolor{keyword}{enum} UDCharCode : \textcolor{keywordtype}{byte} \{ ProgBarCharBlank = 0, ProgBarCharFull, ProgBarCharBegin, ProgBarCharEnd, ProgBarCharPartial \};}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{93     \mbox{\hyperlink{class_bar_display_af4d5edd9d5d3adc815bab9e6e51802a2}{BarDisplay}}(DISP\& displ, \textcolor{keyword}{const} \mbox{\hyperlink{structbarstyle}{barstyle}}\& bs) : disp(\&displ), barStyle(\&bs), styleMemPlacement(RAM) \{ \}}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{102     \mbox{\hyperlink{class_bar_display_ac1f02154e1ba1dd8dcc026e582baacd6}{BarDisplay}}(DISP\& displ, \textcolor{keyword}{const} \mbox{\hyperlink{classin_p_r_o_g_m_e_m}{inPROGMEM}}\& wraped) : disp(\&displ), barStyle(wraped.unwrap()), styleMemPlacement(FLASH) \{ \}}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104     \mbox{\hyperlink{class_bar_display_af4d5edd9d5d3adc815bab9e6e51802a2}{BarDisplay}}(DISP\& displ, \textcolor{keyword}{const} \mbox{\hyperlink{structbarstyle}{barstyle}}* bsp) : disp(\&displ), barStyle(bsp), styleMemPlacement(RAM) \{ \}}
+\DoxyCodeLine{105     \mbox{\hyperlink{class_bar_display_af4d5edd9d5d3adc815bab9e6e51802a2}{BarDisplay}}(DISP\& displ, \textcolor{keyword}{const} \_\_FlashBarStyleHelper* bspf) : disp(\&displ), barStyle(bspf), styleMemPlacement(FLASH) \{ \}}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107     \mbox{\hyperlink{class_bar_display_af4d5edd9d5d3adc815bab9e6e51802a2}{BarDisplay}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_bar_display}{BarDisplay}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{108     \mbox{\hyperlink{class_bar_display}{BarDisplay}}\& operator=(\textcolor{keyword}{const} \mbox{\hyperlink{class_bar_display}{BarDisplay}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{114     \textcolor{keyword}{inline} DISP* \mbox{\hyperlink{class_bar_display_acaee267a33fc76f9bca0a6a2ecbec85a}{dsplay}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{115 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{116         \textcolor{keywordflow}{return} disp;}
+\DoxyCodeLine{117     \}}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{123     \textcolor{keyword}{inline} \textcolor{keyword}{const} \mbox{\hyperlink{structbarstyle}{barstyle}}\& \mbox{\hyperlink{class_bar_display_ad3af8ec1a091493b250fc56a868a195a}{getStyle}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{124 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{125         \textcolor{keywordflow}{return} *barStyle;}
+\DoxyCodeLine{126     \}}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{132     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_bar_display_aaa44ab29f287355687fb6040060c3bf9}{setStyle}}(\textcolor{keyword}{const} \mbox{\hyperlink{structbarstyle}{barstyle}}\& bs)}
+\DoxyCodeLine{133     \{}
+\DoxyCodeLine{134         barStyle = \&bs;}
+\DoxyCodeLine{135         styleMemPlacement = RAM;}
+\DoxyCodeLine{136         \mbox{\hyperlink{class_bar_display_ac00fba603431ff81449e44dfaa1656ad}{begin}}();}
+\DoxyCodeLine{137     \}}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{143     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_bar_display_ae49d9f17735646fc9bdd9a615558231e}{setStyle}}(\textcolor{keyword}{const} \mbox{\hyperlink{classin_p_r_o_g_m_e_m}{inPROGMEM}}\& wraped)}
+\DoxyCodeLine{144     \{}
+\DoxyCodeLine{145         barStyle = wraped.unwrap();}
+\DoxyCodeLine{146         styleMemPlacement = FLASH;}
+\DoxyCodeLine{147         \mbox{\hyperlink{class_bar_display_ac00fba603431ff81449e44dfaa1656ad}{begin}}();}
+\DoxyCodeLine{148     \}}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{154     \mbox{\hyperlink{structbarstyle_1_1bspar}{barstyle::bspar}} \mbox{\hyperlink{class_bar_display_a11f57163eb558cc034ee5654ccecec3f}{stylePar}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{155 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{156         \textcolor{keywordflow}{if} (styleMemPlacement == RAM)}
+\DoxyCodeLine{157         \{}
+\DoxyCodeLine{158             \textcolor{keywordflow}{return}(barStyle-\/>stylePar);}
+\DoxyCodeLine{159         \}}
+\DoxyCodeLine{160         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{161         \{}
+\DoxyCodeLine{162             uint8\_t m = pgm\_read\_byte(\&(barStyle-\/>stylePar));}
+\DoxyCodeLine{163             \textcolor{keywordflow}{return} *(\textcolor{keyword}{reinterpret\_cast<}struct \mbox{\hyperlink{structbarstyle_1_1bspar}{barstyle::bspar}}*\textcolor{keyword}{>}(\&m));}
+\DoxyCodeLine{164         \}}
+\DoxyCodeLine{165     \}}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{171     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_bar_display_a59679ed750d6c772600a26996b942653}{styleStartOffset}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{172 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{173         \textcolor{keywordflow}{return} \mbox{\hyperlink{class_bar_display_a11f57163eb558cc034ee5654ccecec3f}{stylePar}}().startOffset;}
+\DoxyCodeLine{174     \}}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{180     \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_bar_display_afb42bca3cce2e82eb96b35783e4711eb}{styleEndOffset}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{181 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{182         \textcolor{keywordflow}{return} \mbox{\hyperlink{class_bar_display_a11f57163eb558cc034ee5654ccecec3f}{stylePar}}().endOffset;}
+\DoxyCodeLine{183     \}}
+\DoxyCodeLine{184 }
+\DoxyCodeLine{189     \textcolor{keyword}{inline} uint8\_t \mbox{\hyperlink{class_bar_display_ae22868de4a545e9bbf6859b9306adffc}{styleOrientation}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{190 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{191         \textcolor{keywordflow}{return} \mbox{\hyperlink{class_bar_display_a11f57163eb558cc034ee5654ccecec3f}{stylePar}}().dir;}
+\DoxyCodeLine{192     \}}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{197     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_bar_display_ac00fba603431ff81449e44dfaa1656ad}{begin}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{198 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{199         \textcolor{comment}{// create the blank piece in the middle }}
+\DoxyCodeLine{200         \mbox{\hyperlink{class_bar_display_ac6ac9be118c6cb7567e60ee61a6ac92b}{createChar}}(ProgBarCharBlank, (barStyle-\/>middleMask[barstyle::ORmask]));}
+\DoxyCodeLine{201         \textcolor{comment}{// create the completely filled piece in the middle }}
+\DoxyCodeLine{202         \mbox{\hyperlink{class_bar_display_ac6ac9be118c6cb7567e60ee61a6ac92b}{createChar}}(ProgBarCharFull, barStyle-\/>middleMask);}
+\DoxyCodeLine{203         \textcolor{comment}{// create the full piece at the beginning (left edge of the frame when filled, bottom on vertical progress bar)}}
+\DoxyCodeLine{204         \mbox{\hyperlink{class_bar_display_ac6ac9be118c6cb7567e60ee61a6ac92b}{createChar}}(ProgBarCharBegin, barStyle-\/>startMask);}
+\DoxyCodeLine{205         \textcolor{comment}{// create the blank piece at the end (right edge of the frame when blank, top on vertical progress bar)}}
+\DoxyCodeLine{206         \mbox{\hyperlink{class_bar_display_ac6ac9be118c6cb7567e60ee61a6ac92b}{createChar}}(ProgBarCharEnd, (barStyle-\/>endMask[barstyle::ORmask])); }
+\DoxyCodeLine{207     \}}
+\DoxyCodeLine{208 }
+\DoxyCodeLine{215     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_bar_display_a03e3db54285d9c79ac16c308e268dd3c}{makeChar}}(\textcolor{keywordtype}{byte} udChr, \textcolor{keyword}{const} uint8\_t xMask[2][barstyle::CharPatRows], uint8\_t mask)\textcolor{keyword}{ const}}
+\DoxyCodeLine{216 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{217         uint8\_t t[barstyle::CharPatRows];}
+\DoxyCodeLine{218         \textcolor{keywordflow}{if} (styleMemPlacement == RAM) }
+\DoxyCodeLine{219         \{}
+\DoxyCodeLine{220             \mbox{\hyperlink{class_bar_display_ad6f93c8f6f187ddabdafb12af345ceca}{craeteMask}}(t, xMask, mask);}
+\DoxyCodeLine{221         \}}
+\DoxyCodeLine{222         \textcolor{keywordflow}{else} \textcolor{comment}{// in FLASH}}
+\DoxyCodeLine{223         \{}
+\DoxyCodeLine{224             uint8\_t tao[2][barstyle::CharPatRows];}
+\DoxyCodeLine{225             memcpy\_P(tao, xMask, barstyle::CharPatRows << 1);}
+\DoxyCodeLine{226             \mbox{\hyperlink{class_bar_display_ad6f93c8f6f187ddabdafb12af345ceca}{craeteMask}}(t, tao, mask);}
+\DoxyCodeLine{227         \}}
+\DoxyCodeLine{228         disp-\/>createChar(udChr, t);}
+\DoxyCodeLine{229     \}}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{238     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_bar_display_ad6f93c8f6f187ddabdafb12af345ceca}{craeteMask}}(uint8\_t out[barstyle::CharPatRows], \textcolor{keyword}{const} uint8\_t xMask[2][barstyle::CharPatRows], uint8\_t mask)\textcolor{keyword}{ const}}
+\DoxyCodeLine{239 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{240         \textcolor{keywordflow}{if} (\mbox{\hyperlink{class_bar_display_ae22868de4a545e9bbf6859b9306adffc}{styleOrientation}}() == barstyle::Vertical)}
+\DoxyCodeLine{241         \{}
+\DoxyCodeLine{242             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{byte} i = 0; i < barstyle::CharPatRows; i++, mask >>= 1)}
+\DoxyCodeLine{243             \{}
+\DoxyCodeLine{244                 out[i] = (mask \& 1) ? (xMask[0][i] | xMask[1][i]) : xMask[1][i];}
+\DoxyCodeLine{245             \}}
+\DoxyCodeLine{246         \}}
+\DoxyCodeLine{247         \textcolor{keywordflow}{else} \textcolor{comment}{// Horizontal}}
+\DoxyCodeLine{248         \{}
+\DoxyCodeLine{249             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{byte} i = 0; i < barstyle::CharPatRows; i++)}
+\DoxyCodeLine{250             \{}
+\DoxyCodeLine{251                 out[i] = (mask \& xMask[0][i]) | xMask[1][i];}
+\DoxyCodeLine{252             \}}
+\DoxyCodeLine{253         \}}
+\DoxyCodeLine{254     \}}
+\DoxyCodeLine{255 }
+\DoxyCodeLine{262     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_bar_display_ac6ac9be118c6cb7567e60ee61a6ac92b}{createChar}}(\textcolor{keywordtype}{byte} udChr, \textcolor{keyword}{const} uint8\_t bitMask[barstyle::CharPatRows])\textcolor{keyword}{ const}}
+\DoxyCodeLine{263 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{264         \textcolor{keywordflow}{if} (styleMemPlacement == RAM)}
+\DoxyCodeLine{265         \{}
+\DoxyCodeLine{266             disp-\/>createChar(udChr, \textcolor{keyword}{const\_cast<}uint8\_t*\textcolor{keyword}{>}(bitMask));}
+\DoxyCodeLine{267         \}}
+\DoxyCodeLine{268         \textcolor{keywordflow}{else} \textcolor{comment}{// in FLASH}}
+\DoxyCodeLine{269         \{}
+\DoxyCodeLine{270             uint8\_t ta[barstyle::CharPatRows];}
+\DoxyCodeLine{271             memcpy\_P(ta, bitMask, barstyle::CharPatRows);}
+\DoxyCodeLine{272             disp-\/>createChar(udChr, ta);}
+\DoxyCodeLine{273         \}}
+\DoxyCodeLine{274     \}}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{282     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_bar_display_ad4cb2afe0757e7dd7f2a76fd61e0f27b}{createChar}}(\textcolor{keywordtype}{byte} udChr, \textcolor{keyword}{const} uint8\_t xMask[2][barstyle::CharPatRows])\textcolor{keyword}{ const}}
+\DoxyCodeLine{283 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{284         \textcolor{keywordflow}{if} (styleMemPlacement == RAM)}
+\DoxyCodeLine{285         \{}
+\DoxyCodeLine{286             uint8\_t t[barstyle::CharPatRows];}
+\DoxyCodeLine{287             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{byte} i = 0; i < barstyle::CharPatRows; i++)}
+\DoxyCodeLine{288             \{}
+\DoxyCodeLine{289                 t[i] = xMask[0][i] | xMask[1][i];}
+\DoxyCodeLine{290             \}}
+\DoxyCodeLine{291             disp-\/>createChar(udChr, t);}
+\DoxyCodeLine{292         \}}
+\DoxyCodeLine{293         \textcolor{keywordflow}{else} \textcolor{comment}{// in FLASH}}
+\DoxyCodeLine{294         \{}
+\DoxyCodeLine{295             uint8\_t tao[2][barstyle::CharPatRows];}
+\DoxyCodeLine{296             memcpy\_P(tao, xMask, barstyle::CharPatRows << 1);}
+\DoxyCodeLine{297             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{byte} i = 0; i < barstyle::CharPatRows; i++)}
+\DoxyCodeLine{298             \{}
+\DoxyCodeLine{299                 tao[0][i] |= tao[1][i];}
+\DoxyCodeLine{300             \}}
+\DoxyCodeLine{301             disp-\/>createChar(udChr, tao[0]);}
+\DoxyCodeLine{302         \}}
+\DoxyCodeLine{303     \}}
+\DoxyCodeLine{304 }
+\DoxyCodeLine{305     DISP* disp; \textcolor{comment}{// pointer to the display object}}
+\DoxyCodeLine{306     \textcolor{keyword}{const} \mbox{\hyperlink{structbarstyle}{barstyle}}* barStyle; \textcolor{comment}{// pointer to the bar style struct}}
+\DoxyCodeLine{307     MemoryType styleMemPlacement; \textcolor{comment}{// where the bitmaps defining the style (barstyle*) are stored, RAM or FLASH}}
+\DoxyCodeLine{308 \};}
+\DoxyCodeLine{309 }
+\DoxyCodeLine{313 \textcolor{keyword}{class }\mbox{\hyperlink{class_bar_pos}{BarPos}}}
+\DoxyCodeLine{314 \{}
+\DoxyCodeLine{315 \textcolor{keyword}{public}:}
+\DoxyCodeLine{323     \mbox{\hyperlink{class_bar_pos_abfa03653df98d5c0b3c63efbb1818aae}{BarPos}}(\textcolor{keywordtype}{byte} \_len, \textcolor{keywordtype}{byte} \_row, \textcolor{keywordtype}{byte} \_col, \textcolor{keywordtype}{byte} \_id = 0) }
+\DoxyCodeLine{324         : par(\mbox{\hyperlink{struct_bar_pos_1_1_prog_bar_par}{ProgBarPar}}\{ \_len, \_row, \_col, \_id \}) \{ \}}
+\DoxyCodeLine{325  }
+\DoxyCodeLine{330     \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_bar_pos_a5aff43abf0f8b3eb96ba25cf6eb24efa}{setLength}}(\textcolor{keywordtype}{int} \_len) \textcolor{comment}{// in characters }}
+\DoxyCodeLine{331     \{}
+\DoxyCodeLine{332         par.len = \_len;}
+\DoxyCodeLine{333     \}}
+\DoxyCodeLine{334 }
+\DoxyCodeLine{342     \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_bar_pos_accff332de8f214d102ca9727c49b09a8}{setPosition}}(\textcolor{keywordtype}{byte} \_row, \textcolor{keywordtype}{byte} \_col)}
+\DoxyCodeLine{343     \{}
+\DoxyCodeLine{344         par.row = \_row;}
+\DoxyCodeLine{345         par.col = \_col;}
+\DoxyCodeLine{346     \}}
+\DoxyCodeLine{347 }
+\DoxyCodeLine{348 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{349     \textcolor{keyword}{struct }\mbox{\hyperlink{struct_bar_pos_1_1_prog_bar_par}{ProgBarPar}}}
+\DoxyCodeLine{350     \{}
+\DoxyCodeLine{351         \textcolor{keywordtype}{byte} len : 6; \textcolor{comment}{// progress bar length in characters}}
+\DoxyCodeLine{352         \textcolor{keywordtype}{byte} row : 2; \textcolor{comment}{// row position of the progress bar}}
+\DoxyCodeLine{353         \textcolor{keywordtype}{byte} col : 6; \textcolor{comment}{// column position of the progress bar}}
+\DoxyCodeLine{354         \textcolor{keyword}{const} \textcolor{keywordtype}{byte} id  : 2; \textcolor{comment}{// progress bar number 0-\/3 }}
+\DoxyCodeLine{355     \} par;}
+\DoxyCodeLine{356 \};}
+\DoxyCodeLine{357 }
+\DoxyCodeLine{362 \textcolor{keyword}{template} < \textcolor{keyword}{class} DISP >}
+\DoxyCodeLine{363 \textcolor{keyword}{class }\mbox{\hyperlink{class_progress_bar}{ProgressBar}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_bar_pos}{BarPos}}}
+\DoxyCodeLine{364 \{}
+\DoxyCodeLine{365 \textcolor{keyword}{private}:}
+\DoxyCodeLine{366     \mbox{\hyperlink{class_progress_bar}{ProgressBar}}(\textcolor{keywordtype}{byte} \_len, \textcolor{keywordtype}{byte} \_row, \textcolor{keywordtype}{byte} \_col, \textcolor{keywordtype}{byte} \_id = 0)}
+\DoxyCodeLine{367         : \mbox{\hyperlink{class_bar_pos_abfa03653df98d5c0b3c63efbb1818aae}{BarPos}}(\_len, \_row, \_col, \_id) \{ \}}
+\DoxyCodeLine{368 }
+\DoxyCodeLine{369 \textcolor{keyword}{public}:}
+\DoxyCodeLine{378     \mbox{\hyperlink{class_progress_bar_a1e80863f26b9cd53d04ccf58cd176737}{ProgressBar}}(DISP\& disp, \textcolor{keywordtype}{byte} \_width, \textcolor{keywordtype}{byte} \_row, \textcolor{keywordtype}{byte} \_col, \textcolor{keywordtype}{byte} \_pbn = 0)}
+\DoxyCodeLine{379         : \mbox{\hyperlink{class_bar_pos}{BarPos}}(\_width, \_row, \_col, \_pbn), barDisp(disp) \{ \}}
+\DoxyCodeLine{380 }
+\DoxyCodeLine{385     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_progress_bar_acb6a36ab34b20c23c54463cb38172227}{size}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{386 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{387         \textcolor{keyword}{const} \mbox{\hyperlink{structbarstyle_1_1bspar}{barstyle::bspar}} \& barStylePar = barDisp.stylePar();}
+\DoxyCodeLine{388         \textcolor{keywordflow}{return} par.len * (barStylePar.dir ? barstyle::CharPatRows : barstyle::CharPatCols) -\/ barStylePar.startOffset -\/ barStylePar.endOffset;}
+\DoxyCodeLine{389     \}}
+\DoxyCodeLine{390 }
+\DoxyCodeLine{396     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_progress_bar_af67867b28868a34cb58bdc8e9d6008d3}{showProgress}}(\textcolor{keywordtype}{int} val)}
+\DoxyCodeLine{397     \{}
+\DoxyCodeLine{398         \textcolor{comment}{//const barstyle::bspar\& barStylePar = barDisp.stylePar();}}
+\DoxyCodeLine{399         \textcolor{comment}{//showProg(val + barStylePar.startOffset, par.id);}}
+\DoxyCodeLine{400         \mbox{\hyperlink{class_progress_bar_a5e0c5c9a07872303b768c1c22909f4f6}{showProg}}(val + barDisp.styleStartOffset(), par.id);}
+\DoxyCodeLine{401     \}}
+\DoxyCodeLine{402 }
+\DoxyCodeLine{408     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_progress_bar_a67c6761d0e9817a4dbc3381856bc5580}{showProgressPct}}(\textcolor{keywordtype}{int} val) \{ \mbox{\hyperlink{class_progress_bar_af67867b28868a34cb58bdc8e9d6008d3}{showProgress}}((val * \mbox{\hyperlink{class_progress_bar_acb6a36ab34b20c23c54463cb38172227}{size}}()) / 100); \}}
+\DoxyCodeLine{409 }
+\DoxyCodeLine{410 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{416     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_progress_bar_a5e0c5c9a07872303b768c1c22909f4f6}{showProg}}(\textcolor{keywordtype}{int} val, \textcolor{keywordtype}{byte} n)}
+\DoxyCodeLine{417     \{}
+\DoxyCodeLine{418         \textcolor{keyword}{const} \mbox{\hyperlink{structbarstyle_1_1bspar}{barstyle::bspar}}\& barStylePar = barDisp.stylePar();}
+\DoxyCodeLine{419         \textcolor{keyword}{const} \textcolor{keywordtype}{byte} cellDim = barStylePar.dir ? barstyle::CharPatRows : barstyle::CharPatCols;}
+\DoxyCodeLine{420         \textcolor{keyword}{const} \textcolor{keywordtype}{byte} rem = (cellDim -\/ (val \% cellDim));}
+\DoxyCodeLine{421         uint8\_t mask = barStylePar.dir ?}
+\DoxyCodeLine{422             (barstyle::AllRows << rem) :}
+\DoxyCodeLine{423             ((barstyle::AllCols << rem));}
+\DoxyCodeLine{424         \textcolor{keywordtype}{byte} full = min(max(0, val / cellDim -\/ 1), par.len -\/ 2);}
+\DoxyCodeLine{425         \textcolor{keyword}{const} \textcolor{keywordtype}{byte} partial = (val > cellDim \&\& val < (par.len -\/ 1) * cellDim);}
+\DoxyCodeLine{426         \textcolor{keywordtype}{byte} blank = max(0, par.len -\/ full -\/ 2 -\/ partial);}
+\DoxyCodeLine{427         }
+\DoxyCodeLine{428         \textcolor{comment}{// determine and prepare the user defined characters}}
+\DoxyCodeLine{429         \textcolor{keywordflow}{if} (val < cellDim) \textcolor{comment}{// still filling the first block, create and use the middle char}}
+\DoxyCodeLine{430         \{}
+\DoxyCodeLine{431             barDisp.makeChar(DISP::ProgBarCharPartial + n, barDisp.getStyle().startMask, mask);}
+\DoxyCodeLine{432         \}}
+\DoxyCodeLine{433         \textcolor{keywordflow}{if} (partial)}
+\DoxyCodeLine{434         \{}
+\DoxyCodeLine{435             barDisp.makeChar(DISP::ProgBarCharPartial + n, barDisp.getStyle().middleMask, mask);}
+\DoxyCodeLine{436         \}}
+\DoxyCodeLine{437         \textcolor{keywordflow}{if} (val > (par.len -\/ 1) * cellDim) \textcolor{comment}{// last block partially (or fully) filled, create and use the middle char}}
+\DoxyCodeLine{438         \{}
+\DoxyCodeLine{439             \textcolor{keywordflow}{if} (val >= par.len * cellDim) \textcolor{comment}{// special case val == size() -\/ last block completely full}}
+\DoxyCodeLine{440             \{}
+\DoxyCodeLine{441                 mask = (barStylePar.dir ? barstyle::AllRows : barstyle::AllCols);}
+\DoxyCodeLine{442             \}}
+\DoxyCodeLine{443             barDisp.makeChar(DISP::ProgBarCharPartial + n, barDisp.getStyle().endMask, mask);}
+\DoxyCodeLine{444         \}}
+\DoxyCodeLine{445 }
+\DoxyCodeLine{446         barDisp.dsplay()-\/>setCursor(par.col, par.row);}
+\DoxyCodeLine{447         barDisp.dsplay()-\/>write((val < cellDim) ? (DISP::ProgBarCharPartial + n) : DISP::ProgBarCharBegin);}
+\DoxyCodeLine{448 }
+\DoxyCodeLine{449         \textcolor{comment}{// show on the display }}
+\DoxyCodeLine{450         \textcolor{keywordtype}{byte} crow = par.row;}
+\DoxyCodeLine{451         \textcolor{keywordflow}{while} (full-\/-\/)}
+\DoxyCodeLine{452         \{}
+\DoxyCodeLine{453             \textcolor{keywordflow}{if} (barStylePar.dir)}
+\DoxyCodeLine{454             \{}
+\DoxyCodeLine{455                 barDisp.dsplay()-\/>setCursor(par.col, -\/-\/crow);}
+\DoxyCodeLine{456             \}}
+\DoxyCodeLine{457             barDisp.dsplay()-\/>write(DISP::ProgBarCharFull);}
+\DoxyCodeLine{458         \}}
+\DoxyCodeLine{459         \textcolor{keywordflow}{if} (partial)}
+\DoxyCodeLine{460         \{}
+\DoxyCodeLine{461             \textcolor{keywordflow}{if} (barStylePar.dir)}
+\DoxyCodeLine{462             \{}
+\DoxyCodeLine{463                 barDisp.dsplay()-\/>setCursor(par.col, -\/-\/crow);}
+\DoxyCodeLine{464             \}}
+\DoxyCodeLine{465             barDisp.dsplay()-\/>write(DISP::ProgBarCharPartial + n);}
+\DoxyCodeLine{466         \}}
+\DoxyCodeLine{467         \textcolor{keywordflow}{while} (blank-\/-\/)}
+\DoxyCodeLine{468         \{}
+\DoxyCodeLine{469             \textcolor{keywordflow}{if} (barStylePar.dir)}
+\DoxyCodeLine{470             \{}
+\DoxyCodeLine{471                 barDisp.dsplay()-\/>setCursor(par.col, -\/-\/crow);}
+\DoxyCodeLine{472             \}}
+\DoxyCodeLine{473             barDisp.dsplay()-\/>write(DISP::ProgBarCharBlank);}
+\DoxyCodeLine{474         \}}
+\DoxyCodeLine{475         \textcolor{keywordflow}{if} (barStylePar.dir)}
+\DoxyCodeLine{476         \{}
+\DoxyCodeLine{477             barDisp.dsplay()-\/>setCursor(par.col, -\/-\/crow);}
+\DoxyCodeLine{478         \}}
+\DoxyCodeLine{479         barDisp.dsplay()-\/>write((val > (par.len -\/ 1) * cellDim) ? (DISP::ProgBarCharPartial + n) : DISP::ProgBarCharEnd);}
+\DoxyCodeLine{480     \}}
+\DoxyCodeLine{481     }
+\DoxyCodeLine{482     \textcolor{comment}{//data}}
+\DoxyCodeLine{483     \textcolor{keyword}{const} DISP\& barDisp; \textcolor{comment}{// reference to the display wrapper object}}
+\DoxyCodeLine{484 \};}
+\DoxyCodeLine{485 }
+\DoxyCodeLine{486 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_bar_display}{BarDisplay < LCD\_OBJ >}} \mbox{\hyperlink{class_bar_display}{LCD}};}
+\DoxyCodeLine{487 \textcolor{keyword}{typedef} \mbox{\hyperlink{class_progress_bar}{ProgressBar < BarDisplay < LCD\_OBJ >}} > \mbox{\hyperlink{class_progress_bar}{SmoothProgressBar}};}
+\DoxyCodeLine{488 }
+\DoxyCodeLine{489 }
+\DoxyCodeLine{490 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SMOOTH\_LCD\_PROGRESS\_BARS\_H}}
+
+\end{DoxyCode}

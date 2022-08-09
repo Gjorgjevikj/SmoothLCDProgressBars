@@ -1,0 +1,150 @@
+\hypertarget{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4}{}\doxysection{Progress\+Bar\texorpdfstring{$<$}{<} DISP, Vertical \texorpdfstring{$>$}{>} Class Template Reference}
+\label{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4}\index{ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}}
+
+
+class representing a vertical smooth progress bar  
+
+
+
+
+{\ttfamily \#include $<$Smooth\+LCDProgress\+Bars.\+h$>$}
+
+Inheritance diagram for Progress\+Bar\texorpdfstring{$<$}{<} DISP, Vertical \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a19a8d9680f2c3b1b6432bc6429aaaae4}{Progress\+Bar}} (DISP \&disp, byte \+\_\+height, byte \+\_\+row, byte \+\_\+col, byte \+\_\+id=0)
+\begin{DoxyCompactList}\small\item\em Creates vertical \mbox{\hyperlink{class_progress_bar}{Progress\+Bar}} object \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a5f72684a9e2c4dd2ef2fbcaab0c0210d}{size}} () const
+\begin{DoxyCompactList}\small\item\em returns the size (height) of the progress bar in pixels \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a65a6902898265a1a780d9834e2b55ee1}{show\+Progress}} (int val)
+\begin{DoxyCompactList}\small\item\em Draws the progress bar on the LCD display \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_afa07ce4ec1a6295e9f929723328af8ef}{show\+Progress\+Pct}} (int val)
+\begin{DoxyCompactList}\small\item\em Draws the progress bar on the LCD display \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a188370f2622e060b3211a9b2123f31ef}{show\+Prog}} (int val, byte n)
+\begin{DoxyCompactList}\small\item\em Draws the vertical progress bar \#n on the LCD display \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a06aa0d48e38e566b88044dc689de78d3}\label{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a06aa0d48e38e566b88044dc689de78d3}} 
+const DISP \& {\bfseries displ}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class DISP$>$\newline
+class Progress\+Bar$<$ DISP, Vertical $>$}
+class representing a vertical smooth progress bar 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em DISP} & \mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}} class\\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a19a8d9680f2c3b1b6432bc6429aaaae4}\label{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a19a8d9680f2c3b1b6432bc6429aaaae4}} 
+\index{ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}!ProgressBar@{ProgressBar}}
+\index{ProgressBar@{ProgressBar}!ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}}
+\doxysubsubsection{\texorpdfstring{ProgressBar()}{ProgressBar()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+\mbox{\hyperlink{class_progress_bar}{Progress\+Bar}}$<$ DISP, Vertical $>$\mbox{\hyperlink{class_progress_bar}{\+::\+Progress\+Bar}} (\begin{DoxyParamCaption}\item[{DISP \&}]{disp,  }\item[{byte}]{\+\_\+height,  }\item[{byte}]{\+\_\+row,  }\item[{byte}]{\+\_\+col,  }\item[{byte}]{\+\_\+id = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Creates vertical \mbox{\hyperlink{class_progress_bar}{Progress\+Bar}} object 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em DISP} & the display on which it will be shown\\
+\hline
+{\em \+\_\+height} & the height of the progress bar in characters\\
+\hline
+{\em \+\_\+row} & position\+: the row of the start end of the progress bar\\
+\hline
+{\em \+\_\+col} & position\+: the column of the start end of the progress bar\\
+\hline
+{\em \+\_\+id} & the id of the progress bar (4 supported\+: 0-\/3)\\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a188370f2622e060b3211a9b2123f31ef}\label{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a188370f2622e060b3211a9b2123f31ef}} 
+\index{ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}!showProg@{showProg}}
+\index{showProg@{showProg}!ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}}
+\doxysubsubsection{\texorpdfstring{showProg()}{showProg()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+void \mbox{\hyperlink{class_progress_bar}{Progress\+Bar}}$<$ DISP, Vertical $>$\+::show\+Prog (\begin{DoxyParamCaption}\item[{int}]{val,  }\item[{byte}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Draws the vertical progress bar \#n on the LCD display 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & at what extent it is filled in pixels \\
+\hline
+{\em n} & the id of the progress bar \+: 0-\/3\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a65a6902898265a1a780d9834e2b55ee1}\label{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a65a6902898265a1a780d9834e2b55ee1}} 
+\index{ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}!showProgress@{showProgress}}
+\index{showProgress@{showProgress}!ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}}
+\doxysubsubsection{\texorpdfstring{showProgress()}{showProgress()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+void \mbox{\hyperlink{class_progress_bar}{Progress\+Bar}}$<$ DISP, Vertical $>$\+::show\+Progress (\begin{DoxyParamCaption}\item[{int}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Draws the progress bar on the LCD display 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & at what extent it is filled (bottom to top) in pixels \+: 0 to \mbox{\hyperlink{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a5f72684a9e2c4dd2ef2fbcaab0c0210d}{size()}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_afa07ce4ec1a6295e9f929723328af8ef}\label{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_afa07ce4ec1a6295e9f929723328af8ef}} 
+\index{ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}!showProgressPct@{showProgressPct}}
+\index{showProgressPct@{showProgressPct}!ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}}
+\doxysubsubsection{\texorpdfstring{showProgressPct()}{showProgressPct()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+void \mbox{\hyperlink{class_progress_bar}{Progress\+Bar}}$<$ DISP, Vertical $>$\+::show\+Progress\+Pct (\begin{DoxyParamCaption}\item[{int}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Draws the progress bar on the LCD display 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & at what extent it is filled (bottom to top) in percents \+: 0 to 100 \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a5f72684a9e2c4dd2ef2fbcaab0c0210d}\label{class_progress_bar_3_01_d_i_s_p_00_01_vertical_01_4_a5f72684a9e2c4dd2ef2fbcaab0c0210d}} 
+\index{ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}!size@{size}}
+\index{size@{size}!ProgressBar$<$ DISP, Vertical $>$@{ProgressBar$<$ DISP, Vertical $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+unsigned int \mbox{\hyperlink{class_progress_bar}{Progress\+Bar}}$<$ DISP, Vertical $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+returns the size (height) of the progress bar in pixels 
+
+\begin{DoxyReturn}{Returns}
+the size of the progress bar in pixels
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/Smooth\+LCDProgress\+Bars.\+h\end{DoxyCompactItemize}

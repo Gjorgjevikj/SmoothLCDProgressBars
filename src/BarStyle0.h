@@ -1,14 +1,16 @@
 #ifndef BAR_STYLE_0
 #define BAR_STYLE_0
 
-// PLAIN smooth progressbar
+// Contains the bit masks defining a style for a smooth progress bar 
+// to be used with SmoothLCDProgressBars library
+// https://github.com/Gjorgjevikj/SmoothLCDProgressBars.git
+// 
+// Defines a horizontal PLAIN smooth progress bar
 // No frame, full height, square edges, plain
 
-#include <SmoothLCDProgressBars.h>     
+#include <barstyle.h>
 
-#define USE_PROGMEM
-
-#ifdef USE_PROGMEM
+#ifdef BAR_STYLE_0_IN_PROGMEM
 static const PROGMEM struct barstyle 
 #else
 static const struct barstyle
@@ -16,7 +18,7 @@ static const struct barstyle
 
 barStyle0 = {
     {
-        { // lANDmask  
+        { // leftANDmask  
             0b11111,
             0b11111,
             0b11111,
@@ -37,47 +39,47 @@ barStyle0 = {
     },
     {
         { // rightANDmask
-        0b11111,
-        0b11111,
-        0b11111,
-        0b11111,
-        0b11111,
-        0b11111,
-        0b11111,
-        0b11111},
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111},
         { // rightORmask
-        0b00000,
-        0b00000,
-        0b00000,
-        0b00000,
-        0b00000,
-        0b00000,
-        0b00000,
-        0b00000}
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000}
     },
     {
         { // middleANDmask
-        0b11111,
-        0b11111,
-        0b11111,
-        0b11111,
-        0b11111,
-        0b11111,
-        0b11111,
-        0b11111},
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111},
         { // middleORmask
-        0b00000,
-        0b00000,
-        0b00000,
-        0b00000,
-        0b00000,
-        0b00000,
-        0b00000,
-        0b00000}
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000}
     },
     0, // LeftOffset
     0, // RightOffset
-    0  // direction...
+    0  // orientation...
 };
 
-#endif // !BAR_STYLE_1
+#endif // !BAR_STYLE_0

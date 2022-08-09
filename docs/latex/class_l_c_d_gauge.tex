@@ -1,0 +1,82 @@
+\hypertarget{class_l_c_d_gauge}{}\doxysection{LCDGauge Class Reference}
+\label{class_l_c_d_gauge}\index{LCDGauge@{LCDGauge}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_acadb8f952a6a876ae1cf37191a8edf2c}\label{class_l_c_d_gauge_acadb8f952a6a876ae1cf37191a8edf2c}} 
+enum {\bfseries Pixel\+Matrix} \+: byte \{ {\bfseries char\+Rows} = 8
+, {\bfseries char\+Cols} = 5
+ \}
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_aaae13797993a2c6044662a85aa58370c}\label{class_l_c_d_gauge_aaae13797993a2c6044662a85aa58370c}} 
+enum {\bfseries Custom\+Char} \+: byte \{ \newline
+{\bfseries bat\+Blank}
+, {\bfseries bat\+Left}
+, {\bfseries bat\+Mid}
+, {\bfseries bat\+Right}
+, \newline
+{\bfseries bat\+Full}
+, {\bfseries pb\+Blank}
+, {\bfseries bp\+Middle}
+, {\bfseries pb\+Full}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_aa8b9a8b0d617b2aa59ba389a70eade5b}\label{class_l_c_d_gauge_aa8b9a8b0d617b2aa59ba389a70eade5b}} 
+{\bfseries LCDGauge} (LCD\+\_\+\+OBJ \&\+\_\+display, byte \+\_\+width, byte \+\_\+row=0, byte \+\_\+col=0)
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_aac7582b0c441f39eaf415ec425ef392c}\label{class_l_c_d_gauge_aac7582b0c441f39eaf415ec425ef392c}} 
+void {\bfseries init} ()
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_af66615e65c7457248dbc195eb52cfb47}\label{class_l_c_d_gauge_af66615e65c7457248dbc195eb52cfb47}} 
+int {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_a4cace8755d1ec2ad2245042feb9caab4}\label{class_l_c_d_gauge_a4cace8755d1ec2ad2245042feb9caab4}} 
+void {\bfseries set\+Position} (byte, byte)
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_a528b77a0a191dd9f3edec3d7e882757a}\label{class_l_c_d_gauge_a528b77a0a191dd9f3edec3d7e882757a}} 
+void {\bfseries set\+Width} (int w)
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_a86d74f33d4b98235a7ff66d9767487a2}\label{class_l_c_d_gauge_a86d74f33d4b98235a7ff66d9767487a2}} 
+void {\bfseries show\+Gauge} (int val)
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_aa7fb2aae7f47aa364228c69d370c3a0d}\label{class_l_c_d_gauge_aa7fb2aae7f47aa364228c69d370c3a0d}} 
+void {\bfseries show\+Gauge\+Pct} (int pct)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_a1e9ba36c750a01d61106dd2fdb831338}\label{class_l_c_d_gauge_a1e9ba36c750a01d61106dd2fdb831338}} 
+void {\bfseries Create\+Custom\+Character} (uint8\+\_\+t chpos, uint8\+\_\+t mask, uint8\+\_\+t vframe, uint8\+\_\+t hframe)
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_a761b2184fc8b667620a3713dba5cac0b}\label{class_l_c_d_gauge_a761b2184fc8b667620a3713dba5cac0b}} 
+void {\bfseries Create\+Custom\+Chars} (int val)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_af93a1e4cee5e0f4a0c9d276f899f2e83}\label{class_l_c_d_gauge_af93a1e4cee5e0f4a0c9d276f899f2e83}} 
+static uint8\+\_\+t {\bfseries create\+Fill\+Mask} (uint8\+\_\+t mask)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_ae6e16a25abb0805ef2c0cfb0b9e0b8fa}\label{class_l_c_d_gauge_ae6e16a25abb0805ef2c0cfb0b9e0b8fa}} 
+LCD\+\_\+\+OBJ \& {\bfseries display}
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_afc32b084559033ac0de6b72921d30b27}\label{class_l_c_d_gauge_afc32b084559033ac0de6b72921d30b27}} 
+byte {\bfseries width}
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_a060838e800fb13d6dd9b52e2f0acea0b}\label{class_l_c_d_gauge_a060838e800fb13d6dd9b52e2f0acea0b}} 
+byte {\bfseries row}
+\item 
+\mbox{\Hypertarget{class_l_c_d_gauge_a7d8b06034a7e5d337aa1d3eed79b73ff}\label{class_l_c_d_gauge_a7d8b06034a7e5d337aa1d3eed79b73ff}} 
+byte {\bfseries col}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/Smooth\+LCDBattery\+Gauge.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,92 @@
+\hypertarget{_bar_style_bat_v_8h_source}{}\doxysection{Bar\+Style\+Bat\+V.\+h}
+\label{_bar_style_bat_v_8h_source}\index{src/BarStyleBatV.h@{src/BarStyleBatV.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef BAR\_STYLE\_BAT\_V}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define BAR\_STYLE\_BAT\_V}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{comment}{// Contains the bit masks defining a style for a smooth progress bar }}
+\DoxyCodeLine{5 \textcolor{comment}{// to be used with SmoothLCDProgressBars library}}
+\DoxyCodeLine{6 \textcolor{comment}{// https://github.com/Gjorgjevikj/SmoothLCDProgressBars.git}}
+\DoxyCodeLine{7 \textcolor{comment}{// }}
+\DoxyCodeLine{8 \textcolor{comment}{// Defines a smooth vertical progress bar representing a battery}}
+\DoxyCodeLine{9 \textcolor{comment}{// 1 pixel frame, no margin, 1 pixel offsets }}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <barstyle.h>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#ifdef BAR\_STYLE\_BAT\_V\_IN\_PROGMEM}}
+\DoxyCodeLine{14 \textcolor{keyword}{static} \textcolor{keyword}{const} PROGMEM \textcolor{keyword}{struct }\mbox{\hyperlink{structbarstyle}{barstyle}}}
+\DoxyCodeLine{15 \#else}
+\DoxyCodeLine{16 static const struct \mbox{\hyperlink{structbarstyle}{barstyle}}}
+\DoxyCodeLine{17 \#endif}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 barStyleBatV = \{}
+\DoxyCodeLine{20     \{}
+\DoxyCodeLine{21         \{ \textcolor{comment}{// bottomANDmask  }}
+\DoxyCodeLine{22             0b11111,}
+\DoxyCodeLine{23             0b11111,}
+\DoxyCodeLine{24             0b11111,}
+\DoxyCodeLine{25             0b11111,}
+\DoxyCodeLine{26             0b11111,}
+\DoxyCodeLine{27             0b11111,}
+\DoxyCodeLine{28             0b11111,}
+\DoxyCodeLine{29             0b11111\},}
+\DoxyCodeLine{30         \{ \textcolor{comment}{// bottomORmask  }}
+\DoxyCodeLine{31             0b10001,}
+\DoxyCodeLine{32             0b10001,}
+\DoxyCodeLine{33             0b10001,}
+\DoxyCodeLine{34             0b10001,}
+\DoxyCodeLine{35             0b10001,}
+\DoxyCodeLine{36             0b10001,}
+\DoxyCodeLine{37             0b10001,}
+\DoxyCodeLine{38             0b11111\}}
+\DoxyCodeLine{39     \},}
+\DoxyCodeLine{40     \{}
+\DoxyCodeLine{41         \{ \textcolor{comment}{// topANDmask}}
+\DoxyCodeLine{42             0b00000,}
+\DoxyCodeLine{43             0b00000,}
+\DoxyCodeLine{44             0b01110,}
+\DoxyCodeLine{45             0b01110,}
+\DoxyCodeLine{46             0b01110,}
+\DoxyCodeLine{47             0b01110,}
+\DoxyCodeLine{48             0b01110,}
+\DoxyCodeLine{49             0b01110\},}
+\DoxyCodeLine{50         \{ \textcolor{comment}{// topORmask}}
+\DoxyCodeLine{51             0b01110,}
+\DoxyCodeLine{52             0b11111,}
+\DoxyCodeLine{53             0b10001,}
+\DoxyCodeLine{54             0b10001,}
+\DoxyCodeLine{55             0b10001,}
+\DoxyCodeLine{56             0b10001,}
+\DoxyCodeLine{57             0b10001,}
+\DoxyCodeLine{58             0b10001\}}
+\DoxyCodeLine{59     \},}
+\DoxyCodeLine{60     \{}
+\DoxyCodeLine{61         \{ \textcolor{comment}{// middleANDmask}}
+\DoxyCodeLine{62             0b01110,}
+\DoxyCodeLine{63             0b01110,}
+\DoxyCodeLine{64             0b01110,}
+\DoxyCodeLine{65             0b01110,}
+\DoxyCodeLine{66             0b01110,}
+\DoxyCodeLine{67             0b01110,}
+\DoxyCodeLine{68             0b01110,}
+\DoxyCodeLine{69             0b01110\},}
+\DoxyCodeLine{70         \{ \textcolor{comment}{// middleORmask}}
+\DoxyCodeLine{71             0b10001,}
+\DoxyCodeLine{72             0b10001,}
+\DoxyCodeLine{73             0b10001,}
+\DoxyCodeLine{74             0b10001,}
+\DoxyCodeLine{75             0b10001,}
+\DoxyCodeLine{76             0b10001,}
+\DoxyCodeLine{77             0b10001,}
+\DoxyCodeLine{78             0b10001\}}
+\DoxyCodeLine{79     \},}
+\DoxyCodeLine{80     1, \textcolor{comment}{// BootmOffset}}
+\DoxyCodeLine{81     2, \textcolor{comment}{// TopOffset}}
+\DoxyCodeLine{82     1  \textcolor{comment}{// direction...}}
+\DoxyCodeLine{83 \};}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// !BAR\_STYLE\_BAT\_V}}
+
+\end{DoxyCode}

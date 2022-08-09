@@ -1,70 +1,85 @@
 #ifndef BAR_STYLE_SS
 #define BAR_STYLE_SS
 
-#include <SmoothLCDProgressBars.h>     
+// Contains the bit masks defining a style for a smooth progress bar
+// to be used with SmoothLCDProgressBars library
+// https://github.com/Gjorgjevikj/SmoothLCDProgressBars.git
+// 
+// Defines a smooth horizontal progress bar representing a signal strength 
+// for fixed 3 characters length no frame, no margin, no offsets 
 
-#ifdef USE_PROGMEM
-static const PROGMEM struct LCDProgressBar::BarStyle
+#include <barstyle.h>
+
+#ifdef BAR_STYLE_SS_IN_PROGMEM
+static const PROGMEM struct barstyle
 #else
-static struct LCDProgressBar::BarStyle
+static const struct barstyle
 #endif
 
-barStyle = {
-{ // lANDmask  
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00011,
-    0b11111,
-    0b11111},
-{ // lORmask  
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000},
-{ // rANDmask
-    0b00011,
-    0b01111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111},
-{ // rORmask
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000},
-{ // mANDmask
-    0b00000,
-    0b00000,
-    0b00001,
-    0b00111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111},
-{ // mORmask
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000},
-    0, 0
+barStyleSS = {
+    {
+        { // leftANDmask  
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00011,
+            0b01111,
+            0b11111},
+        { // leftORmask  
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000},
+    },
+    {
+        { // rightANDmask
+            0b00011,
+            0b01111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111},
+        { // rightORmask
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000},
+    },
+    {
+        { // middleANDmask
+            0b00000,
+            0b00000,
+            0b00001,
+            0b00111,
+            0b11111,
+            0b11111,
+            0b11111,
+            0b11111},
+        { // mORmask
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000,
+            0b00000},
+    },
+    0, // BootmOffset
+    0, // TopOffset
+    0  // direction...
 };
 
 #endif // !BAR_STYLE_SS

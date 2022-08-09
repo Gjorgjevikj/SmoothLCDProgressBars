@@ -1,0 +1,52 @@
+\hypertarget{barstyle_8h_source}{}\doxysection{barstyle.\+h}
+\label{barstyle_8h_source}\index{src/barstyle.h@{src/barstyle.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef BAR\_STYLE\_STRUCT}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define BAR\_STYLE\_STRUCT}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{comment}{// Part of the SmoothLCDProgressBars library for Arduino}}
+\DoxyCodeLine{5 \textcolor{comment}{// Defines a structure containing bit-\/masks defining a style for a smooth progress bar }}
+\DoxyCodeLine{6 \textcolor{comment}{// to be used with SmoothLCDProgressBars library}}
+\DoxyCodeLine{7 \textcolor{comment}{// https://github.com/Gjorgjevikj/SmoothLCDProgressBars.git}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{comment}{// some utility functions ...}}
+\DoxyCodeLine{10 \textcolor{comment}{// creates bit-\/mask with N LSB bits set to 1 }}
+\DoxyCodeLine{11 \textcolor{keyword}{template} <u\textcolor{keywordtype}{int}8\_t N>}
+\DoxyCodeLine{12 \textcolor{keyword}{constexpr} uint8\_t MaskLSBs()}
+\DoxyCodeLine{13 \{}
+\DoxyCodeLine{14     \textcolor{keywordflow}{return} MaskLSBs<N -\/ 1>() << 1 | 1;}
+\DoxyCodeLine{15 \}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{keyword}{template} <>}
+\DoxyCodeLine{18 \textcolor{keyword}{constexpr} uint8\_t MaskLSBs<0>()}
+\DoxyCodeLine{19 \{}
+\DoxyCodeLine{20     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{21 \}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{template} <>}
+\DoxyCodeLine{24 \textcolor{keyword}{constexpr} uint8\_t MaskLSBs<1>()}
+\DoxyCodeLine{25 \{}
+\DoxyCodeLine{26     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{27 \}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{39 \textcolor{keyword}{struct }\mbox{\hyperlink{structbarstyle}{barstyle}}}
+\DoxyCodeLine{40 \{}
+\DoxyCodeLine{41     \textcolor{keyword}{enum} dotMatrixDim : \textcolor{keywordtype}{byte} \{ CharPatRows = 8, CharPatCols = 5 \};}
+\DoxyCodeLine{42     \textcolor{keyword}{enum} bitMasks : \textcolor{keywordtype}{byte} \{ AllRows = MaskLSBs<CharPatRows>(), AllCols = MaskLSBs<CharPatCols>() \};}
+\DoxyCodeLine{43     \textcolor{keyword}{enum} andOrMaskIndex : \textcolor{keywordtype}{byte} \{ ANDmask, ORmask \};}
+\DoxyCodeLine{44     \textcolor{keyword}{enum} orientation : \textcolor{keywordtype}{byte} \{ Horizontal, Vertical \}; \textcolor{comment}{// Progress bar orientation }}
+\DoxyCodeLine{45     uint8\_t startMask[2][CharPatRows];  \textcolor{comment}{// Left/Bottom-\/AND+OR mask}}
+\DoxyCodeLine{46     uint8\_t endMask[2][CharPatRows];    \textcolor{comment}{// Right/Top-\/AND+OR mask}}
+\DoxyCodeLine{47     uint8\_t middleMask[2][CharPatRows]; \textcolor{comment}{// Middle-\/AND+OR mask}}
+\DoxyCodeLine{48     \textcolor{keyword}{struct }\mbox{\hyperlink{structbarstyle_1_1bspar}{bspar}} \textcolor{comment}{// where the filling of the progress bar actually starts/ends considering that some pixels are taken for the frame}}
+\DoxyCodeLine{49     \{}
+\DoxyCodeLine{50         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} startOffset : 3;}
+\DoxyCodeLine{51         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} endOffset : 3;}
+\DoxyCodeLine{52         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} dir : 2; \textcolor{comment}{//  used for orientation (possibly direction ...)}}
+\DoxyCodeLine{53     \} stylePar;}
+\DoxyCodeLine{54 \};}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAR\_STYLE\_STRUCT}}
+
+\end{DoxyCode}

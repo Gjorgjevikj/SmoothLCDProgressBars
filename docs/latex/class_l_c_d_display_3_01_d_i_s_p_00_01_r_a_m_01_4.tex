@@ -1,0 +1,190 @@
+\hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4}{}\doxysection{LCDDisplay\texorpdfstring{$<$}{<} DISP, RAM \texorpdfstring{$>$}{>} Class Template Reference}
+\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4}\index{LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}}
+
+
+\mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}} class specialization for bar style stored in RAM  
+
+
+
+
+{\ttfamily \#include $<$Smooth\+LCDProgress\+Bars.\+h$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a9aa6cdb0d3625ab38eecc0597a5b6f01}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a9aa6cdb0d3625ab38eecc0597a5b6f01}} 
+enum {\bfseries UDChar\+Code} \+: byte \{ \newline
+{\bfseries Prog\+Bar\+Char\+Blank} = 0
+, {\bfseries Prog\+Bar\+Char\+Full}
+, {\bfseries Prog\+Bar\+Char\+Begin}
+, {\bfseries Prog\+Bar\+Char\+End}
+, \newline
+{\bfseries Prog\+Bar\+Partial}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_ae9bb16420067726bceb504b914bdad3b}{LCDDisplay}} (DISP \&disp, const \mbox{\hyperlink{structbarstyle}{barstyle}} \&bs)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}} constructor creates the object that bounds the LCD display (driven by disp) to the bar style bs \end{DoxyCompactList}\item 
+DISP $\ast$ \mbox{\hyperlink{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_ae5c1219d707782487f28c6515a5e02c7}{get\+Display}} () const
+\begin{DoxyCompactList}\small\item\em access to the display object \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{structbarstyle}{barstyle}} \& \mbox{\hyperlink{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_aed565e1fb675471cd056253cac71f6f9}{get\+Style}} () const
+\begin{DoxyCompactList}\small\item\em access to the bar style structure \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a4ae4cc558108d6705d627c09345f1ff0}{get\+Start\+Offset}} () const
+\begin{DoxyCompactList}\small\item\em start offset (in pixels) of the progress bars \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a5697525afef5d5e1a52424f6a033932b}{get\+End\+Offset}} () const
+\begin{DoxyCompactList}\small\item\em end offset (in pixels) of the progress bars \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a3148cafcf2dda6979c5ae077f3fe7dfb}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a3148cafcf2dda6979c5ae077f3fe7dfb}} 
+void {\bfseries begin} () const
+\begin{DoxyCompactList}\small\item\em initializes the \mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}} object \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a40348c9112872aca9ad0593ca8d54ac5}{make\+Char}} (byte ud\+Chr, const uint8\+\_\+t x\+Mask\mbox{[}2\mbox{]}\mbox{[}barstyle\+::\+Char\+Pat\+Rows\mbox{]}, uint8\+\_\+t mask=barstyle\+::\+All\+Cols) const
+\begin{DoxyCompactList}\small\item\em creates a user defined character in the CGRAM of the LCD display \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a30c85870aa4d17e32a5f531eb20e76ba}{make\+CharV}} (byte ud\+Chr, const uint8\+\_\+t x\+Mask\mbox{[}2\mbox{]}\mbox{[}barstyle\+::\+Char\+Pat\+Rows\mbox{]}, uint8\+\_\+t mask=barstyle\+::\+All\+Cols) const
+\begin{DoxyCompactList}\small\item\em creates a user defined character in the CGRAM of the LCD display used for drawing vertical progress bar \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_ad77f9edf90c0391dfdb8cf5b876fe1c8}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_ad77f9edf90c0391dfdb8cf5b876fe1c8}} 
+DISP $\ast$ {\bfseries display}
+\item 
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_af9b5eccc88d6eb060c2c8bf36fbe5984}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_af9b5eccc88d6eb060c2c8bf36fbe5984}} 
+const \mbox{\hyperlink{structbarstyle}{barstyle}} $\ast$ {\bfseries bar\+Style}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class DISP$>$\newline
+class LCDDisplay$<$ DISP, RAM $>$}
+\mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}} class specialization for bar style stored in RAM 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em DISP} & the class for accessing the LCD \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_ae9bb16420067726bceb504b914bdad3b}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_ae9bb16420067726bceb504b914bdad3b}} 
+\index{LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}!LCDDisplay@{LCDDisplay}}
+\index{LCDDisplay@{LCDDisplay}!LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}}
+\doxysubsubsection{\texorpdfstring{LCDDisplay()}{LCDDisplay()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+\mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}}$<$ DISP, RAM $>$\mbox{\hyperlink{class_l_c_d_display}{\+::\+LCDDisplay}} (\begin{DoxyParamCaption}\item[{DISP \&}]{disp,  }\item[{const \mbox{\hyperlink{structbarstyle}{barstyle}} \&}]{bs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}} constructor creates the object that bounds the LCD display (driven by disp) to the bar style bs 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disp} & the object (as created by the Liquid\+Crystal library) used to access the LCD display\\
+\hline
+{\em bs} & the structure defining the masks for the progress bar style\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_ae5c1219d707782487f28c6515a5e02c7}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_ae5c1219d707782487f28c6515a5e02c7}} 
+\index{LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}!getDisplay@{getDisplay}}
+\index{getDisplay@{getDisplay}!LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}}
+\doxysubsubsection{\texorpdfstring{getDisplay()}{getDisplay()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+DISP $\ast$ \mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}}$<$ DISP, RAM $>$\+::get\+Display (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+access to the display object 
+
+\begin{DoxyReturn}{Returns}
+a pointer to the LCD display object
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a5697525afef5d5e1a52424f6a033932b}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a5697525afef5d5e1a52424f6a033932b}} 
+\index{LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}!getEndOffset@{getEndOffset}}
+\index{getEndOffset@{getEndOffset}!LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}}
+\doxysubsubsection{\texorpdfstring{getEndOffset()}{getEndOffset()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+int \mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}}$<$ DISP, RAM $>$\+::get\+End\+Offset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+end offset (in pixels) of the progress bars 
+
+\begin{DoxyReturn}{Returns}
+end offset (in pixels)
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a4ae4cc558108d6705d627c09345f1ff0}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a4ae4cc558108d6705d627c09345f1ff0}} 
+\index{LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}!getStartOffset@{getStartOffset}}
+\index{getStartOffset@{getStartOffset}!LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}}
+\doxysubsubsection{\texorpdfstring{getStartOffset()}{getStartOffset()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+int \mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}}$<$ DISP, RAM $>$\+::get\+Start\+Offset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+start offset (in pixels) of the progress bars 
+
+\begin{DoxyReturn}{Returns}
+start offset (in pixels)
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_aed565e1fb675471cd056253cac71f6f9}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_aed565e1fb675471cd056253cac71f6f9}} 
+\index{LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}!getStyle@{getStyle}}
+\index{getStyle@{getStyle}!LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}}
+\doxysubsubsection{\texorpdfstring{getStyle()}{getStyle()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+const \mbox{\hyperlink{structbarstyle}{barstyle}} \& \mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}}$<$ DISP, RAM $>$\+::get\+Style (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+access to the bar style structure 
+
+\begin{DoxyReturn}{Returns}
+the style (bar style struct) determining the style of the progress bars on the display
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a40348c9112872aca9ad0593ca8d54ac5}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a40348c9112872aca9ad0593ca8d54ac5}} 
+\index{LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}!makeChar@{makeChar}}
+\index{makeChar@{makeChar}!LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}}
+\doxysubsubsection{\texorpdfstring{makeChar()}{makeChar()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+void \mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}}$<$ DISP, RAM $>$\+::make\+Char (\begin{DoxyParamCaption}\item[{byte}]{ud\+Chr,  }\item[{const uint8\+\_\+t}]{x\+Mask\mbox{[}2\mbox{]}\mbox{[}barstyle\+::\+Char\+Pat\+Rows\mbox{]},  }\item[{uint8\+\_\+t}]{mask = {\ttfamily barstyle\+:\+:AllCols} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+creates a user defined character in the CGRAM of the LCD display 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ud\+Chr} & character code position 0-\/7\\
+\hline
+{\em x\+Mask} & pointer to masks (AND and OR) to be used when defining the character\\
+\hline
+{\em mask} & mask (left filled with 1\textquotesingle{}s) defining how much the character will be filled (left to right)\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a30c85870aa4d17e32a5f531eb20e76ba}\label{class_l_c_d_display_3_01_d_i_s_p_00_01_r_a_m_01_4_a30c85870aa4d17e32a5f531eb20e76ba}} 
+\index{LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}!makeCharV@{makeCharV}}
+\index{makeCharV@{makeCharV}!LCDDisplay$<$ DISP, RAM $>$@{LCDDisplay$<$ DISP, RAM $>$}}
+\doxysubsubsection{\texorpdfstring{makeCharV()}{makeCharV()}}
+{\footnotesize\ttfamily template$<$class DISP $>$ \\
+void \mbox{\hyperlink{class_l_c_d_display}{LCDDisplay}}$<$ DISP, RAM $>$\+::make\+CharV (\begin{DoxyParamCaption}\item[{byte}]{ud\+Chr,  }\item[{const uint8\+\_\+t}]{x\+Mask\mbox{[}2\mbox{]}\mbox{[}barstyle\+::\+Char\+Pat\+Rows\mbox{]},  }\item[{uint8\+\_\+t}]{mask = {\ttfamily barstyle\+:\+:AllCols} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+creates a user defined character in the CGRAM of the LCD display used for drawing vertical progress bar 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ud\+Chr} & character code position 0-\/7\\
+\hline
+{\em x\+Mask} & pointer to masks (AND and OR in RAM) to be used when defining the character\\
+\hline
+{\em mask} & mask (left filled with 1\textquotesingle{}s) defining how much the character will be filled (bottom to top)\\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/Smooth\+LCDProgress\+Bars.\+h\end{DoxyCompactItemize}

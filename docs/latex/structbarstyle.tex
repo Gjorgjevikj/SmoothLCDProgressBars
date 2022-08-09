@@ -1,0 +1,62 @@
+\hypertarget{structbarstyle}{}\doxysection{barstyle Struct Reference}
+\label{structbarstyle}\index{barstyle@{barstyle}}
+
+
+Structure holding the bit-\/masks and other data used for drawing the edges of the progress bar that define the appearance (style) of the progress bar start\+Mask\mbox{[}2\mbox{]}\mbox{[}Char\+Pat\+Rows\mbox{]} -\/ AND and OR mask for the first (beginning) character of the progress bar end\+Mask\mbox{[}2\mbox{]}\mbox{[}Char\+Pat\+Rows\mbox{]} -\/ AND and OR mask for the last (ending) character of the progress bar middle\+Mask\mbox{[}2\mbox{]}\mbox{[}Char\+Pat\+Rows\mbox{]} -\/ AND and OR mask for the advancing (partially filled) character of the progress bar the AND mask defines which pixels to be left on when filling the progress bar (and which should always be off -\/ defining the margin to the frame) the OR mask defines which pixels will always be on -\/ defining the frame of the progress bar start\+Offset -\/ defines where the filling of the progress bar actually starts (regarding the frame and the margin of the style) end\+Offset -\/ defines where the filling of the progress bar ends (regarding the frame and the margin of the style)  
+
+
+
+
+{\ttfamily \#include $<$barstyle.\+h$>$}
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structbarstyle_1_1bspar}{bspar}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structbarstyle_ab819e38ff78d249061f0f0ce7be0c90a}\label{structbarstyle_ab819e38ff78d249061f0f0ce7be0c90a}} 
+enum {\bfseries dot\+Matrix\+Dim} \+: byte \{ {\bfseries Char\+Pat\+Rows} = 8
+, {\bfseries Char\+Pat\+Cols} = 5
+ \}
+\item 
+\mbox{\Hypertarget{structbarstyle_a5c45cb39587557bc82bcaae6ffbc1c0b}\label{structbarstyle_a5c45cb39587557bc82bcaae6ffbc1c0b}} 
+enum {\bfseries bit\+Masks} \+: byte \{ {\bfseries All\+Rows} = Mask\+LSBs\texorpdfstring{$<$}{<}Char\+Pat\+Rows\texorpdfstring{$>$}{>}()
+, {\bfseries All\+Cols} = Mask\+LSBs\texorpdfstring{$<$}{<}Char\+Pat\+Cols\texorpdfstring{$>$}{>}()
+ \}
+\item 
+\mbox{\Hypertarget{structbarstyle_ab4f33be67299ef4caf1e1e5e002d264d}\label{structbarstyle_ab4f33be67299ef4caf1e1e5e002d264d}} 
+enum {\bfseries and\+Or\+Mask\+Index} \+: byte \{ {\bfseries ANDmask}
+, {\bfseries ORmask}
+ \}
+\item 
+\mbox{\Hypertarget{structbarstyle_a39ab11184342f81494e870a1290a420a}\label{structbarstyle_a39ab11184342f81494e870a1290a420a}} 
+enum {\bfseries orientation} \+: byte \{ {\bfseries Horizontal}
+, {\bfseries Vertical}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structbarstyle_a3172d40a65d320cbd6e3fd0132f757af}\label{structbarstyle_a3172d40a65d320cbd6e3fd0132f757af}} 
+uint8\+\_\+t {\bfseries start\+Mask} \mbox{[}2\mbox{]}\mbox{[}Char\+Pat\+Rows\mbox{]}
+\item 
+\mbox{\Hypertarget{structbarstyle_ae410b92254a2bf1503ba7ff6ee8d1d7c}\label{structbarstyle_ae410b92254a2bf1503ba7ff6ee8d1d7c}} 
+uint8\+\_\+t {\bfseries end\+Mask} \mbox{[}2\mbox{]}\mbox{[}Char\+Pat\+Rows\mbox{]}
+\item 
+\mbox{\Hypertarget{structbarstyle_a07b2668b8386f393d99a1eb30865b9b8}\label{structbarstyle_a07b2668b8386f393d99a1eb30865b9b8}} 
+uint8\+\_\+t {\bfseries middle\+Mask} \mbox{[}2\mbox{]}\mbox{[}Char\+Pat\+Rows\mbox{]}
+\item 
+\mbox{\Hypertarget{structbarstyle_a2f542fdbc96c43be199e7697f5bb4919}\label{structbarstyle_a2f542fdbc96c43be199e7697f5bb4919}} 
+struct \mbox{\hyperlink{structbarstyle_1_1bspar}{barstyle\+::bspar}} {\bfseries style\+Par}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Structure holding the bit-\/masks and other data used for drawing the edges of the progress bar that define the appearance (style) of the progress bar start\+Mask\mbox{[}2\mbox{]}\mbox{[}Char\+Pat\+Rows\mbox{]} -\/ AND and OR mask for the first (beginning) character of the progress bar end\+Mask\mbox{[}2\mbox{]}\mbox{[}Char\+Pat\+Rows\mbox{]} -\/ AND and OR mask for the last (ending) character of the progress bar middle\+Mask\mbox{[}2\mbox{]}\mbox{[}Char\+Pat\+Rows\mbox{]} -\/ AND and OR mask for the advancing (partially filled) character of the progress bar the AND mask defines which pixels to be left on when filling the progress bar (and which should always be off -\/ defining the margin to the frame) the OR mask defines which pixels will always be on -\/ defining the frame of the progress bar start\+Offset -\/ defines where the filling of the progress bar actually starts (regarding the frame and the margin of the style) end\+Offset -\/ defines where the filling of the progress bar ends (regarding the frame and the margin of the style) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/barstyle.\+h\end{DoxyCompactItemize}

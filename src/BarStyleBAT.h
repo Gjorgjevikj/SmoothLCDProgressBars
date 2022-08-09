@@ -1,14 +1,16 @@
 #ifndef BAR_STYLE_BAT
 #define BAR_STYLE_BAT
 
-// smooth progressbar rounded style no frame
-// 1 pixel frame, no margin (full height), more rounded edges
+// Contains the bit masks defining a style for a smooth progress bar 
+// to be used with SmoothLCDProgressBars library
+// https://github.com/Gjorgjevikj/SmoothLCDProgressBars.git
+// 
+// Defines a smooth horizontal progress bar representing a battery
+// 1 pixel frame, 1 pixel margin, 5 pixel offsets 
 
-#include <SmoothLCDProgressBars.h>     
+#include <barstyle.h>
 
-#define USE_PROGMEM
-
-#ifdef USE_PROGMEM
+#ifdef BAR_STYLE_BAT_IN_PROGMEM
 static const PROGMEM struct barstyle
 #else
 static const struct barstyle
