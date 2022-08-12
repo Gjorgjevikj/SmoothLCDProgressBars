@@ -16,16 +16,16 @@ static const PROGMEM struct barstyle
 static const struct barstyle
 #endif
 
-barStyleV4 = {
+barStyleV2 = {
     {
         { // bottomANDmask  
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00000,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
             0b00000},
         { // bottomORmask  
             0b10001,
@@ -35,20 +35,20 @@ barStyleV4 = {
             0b10001,
             0b10001,
             0b10001,
-            0b11111}
+            0b01110}
     },
     {
         { // topANDmask
             0b00000,
-            0b00000,
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100},
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110},
         { // topORmask
-            0b11111,
+            0b01110,
             0b10001,
             0b10001,
             0b10001,
@@ -59,14 +59,14 @@ barStyleV4 = {
     },
     {
         { // middleANDmask
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100,
-            0b00100},
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110,
+            0b01110},
         { // middleORmask
             0b10001,
             0b10001,
@@ -77,8 +77,8 @@ barStyleV4 = {
             0b10001,
             0b10001}
     },
-    2, // BottomOffset
-    2, // TopOffset
+    1, // BottomOffset
+    1, // TopOffset
     1  // orientation...
 };
 

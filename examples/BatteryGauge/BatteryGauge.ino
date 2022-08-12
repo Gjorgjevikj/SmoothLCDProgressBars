@@ -1,89 +1,120 @@
-/*
-    Name:       BatteryGauge.ino
-    Created:	18.6.2022 11:31:51
-    Author:     DESKTOP-I9\Dejan
-*/
+/**
+ * @file BatteryGauge.ino
+ * @ingroup examples
+ * @brief Four horizontal / vertical battery gauges example using smooth progress bars 
+ *
+ * This example shows how to display a four horizontal and vertical battery gauges 
+ * on a character LCD display using the SmoothLCDProgressBars library.
+ */
 
+ // Wiring : see the comments in the basic.ino example
+ 
+ //First include the Liquid Crystal library <LiquidCrystal.h> or <LiquidCrystal_I2C.h>  
+#include <LiquidCrystal_I2C.h> 
 
-#include <LiquidCrystal_I2C.h>     // if you don't have I2C version of the display, use LiquidCrystal.h library instead
-#include <yaLCDBatteryGauge.h>
+// than include the Smooth progress bars library
+#include <SmoothLCDProgressBars.h>  
 
+// SmoothLCDProgressBars supports different styles, each stored in separate .h file that should be included next
+// Include the style for basic horizontal battery bar BarStyleBat.h
+// To use the flash (program) memory (a.k.a. PROGMEM) for storing the masks that define the style of the progress bar 
+// (and save some RAM memory) insert #define BAR_STYLE_<#>_IN_PROGMEM before including the corresponding header with the style
+// Do not forget to use the wrapper when passing the style structure to barstyle (LCD) constructor
+#define BAR_STYLE_BAT_IN_PROGMEM 
+#include <BarStyleBat.h>
+#define BAR_STYLE_BAT_V_IN_PROGMEM 
+#include <BarStyleBatV.h>
 
-LiquidCrystal_I2C lcd(0x27, 16, 2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
-//LiquidCrystal_I2C lcd(0x3f,16,2);    // set the LCD address to 0x3f for a 16 chars and 2 line display
-// if you don't know the I2C address of the display, use I2C scanner first (https://playground.arduino.cc/Main/I2cScanner/)
+// Define the lcd object for the display as usual
+LiquidCrystal_I2C lcd(0x27, 20, 4);  // set the LCD address to 0x27 for a 20 chars and 4 line display
 
-LCDGauge bat(lcd, 6, 0, 0);
+// The library supports multiple progress bars (up to 4) on a single display, different styles and multiple displays 
+// but the hardware limitation of these displays dictates that all progress bars on a single display have to share the same style
+// Create the association between the LCD display and the progress bar style 
+// as a bar_display (LCD) object dispA to be used when creating the smooth progress bar object
+// If the style is stored in flash (program) memory you have to use the inPROGMEM wrapper !!!
+LCD dispA(lcd, inPROGMEM(barStyleBat));
 
-//unsigned int gauge = 0;
-char buffer[16];         // helper buffer to store C-style strings (generated with sprintf function)
+// Create the object representing the battery charge
+SmoothProgressBar bat[2][4] = {
+    {
+    SmoothProgressBar(dispA, 6, 0,  0, 0),
+    SmoothProgressBar(dispA, 6, 0,  2, 1),
+    SmoothProgressBar(dispA, 6, 14, 0, 2),
+    SmoothProgressBar(dispA, 6, 14, 2, 3)
+},
+{
+    SmoothProgressBar(dispA, 2, 2,  2, 0),
+    SmoothProgressBar(dispA, 2, 7,  2, 1),
+    SmoothProgressBar(dispA, 2, 12, 2, 2),
+    SmoothProgressBar(dispA, 2, 17, 2, 3)
+} };
+
 
 void setup()
 {
-    lcd.init();                       // initialize the 16x2 lcd module
-    lcd.backlight();                  // enable backlight for the LCD module
-    lcd.print("Battery gauge...");
-    delay(1000);
-    bat.init();
+    lcd.init();            // do the usual lcd initialization for the used liquid crystal library
+    lcd.backlight();       // enable backlight for the LCD module
+    lcd.print("4 Batteries");
+
+    dispA.begin();         // also initialize the bar_display object (loads the style)
+
+    delay(2000);
     lcd.clear();
-    
 }
 
-void chargingAnimation(int state, int r = 3)
-{
-    bat.showGaugePct(state);
-    sprintf(buffer, "Charging: %3d%%", state);
-    lcd.setCursor(0, 0);
-    lcd.print(buffer);                            // print the string on the display
-
-    while (r)
-    {
-        int cs = state;
-        // animate
-        while (cs <= 100 && r > 0)
-        {
-            cs += 2;
-            bat.showGaugePct(cs);
-            delay(1);
-        }
-        r--;
-        delay(200);
-    }
-    bat.showGaugePct(state);
-}
+char bufferp[16], bufferv[16];  
+int val[4];
+int style = 0;
+unsigned long lastTimeChanged = 0;
+const unsigned long ChangeEvery = 5000;
 
 void loop()
 {
-    lcd.clear();
-    bat.setWidth(7);
-    bat.setPosition(0, 0);
-    for (int gauge = 0; gauge <= 100; gauge++)
+    // simulate some values
+    for (int j = 10; j <= 100; j++)
     {
-        bat.showGaugePct(gauge);
-        sprintf(buffer, "%3d%%", gauge);
-        lcd.setCursor(12, 1);
-        lcd.print(buffer);                            // print the string on the display
-        delay(10);  // wait for a while 
+        for (int i = 0; i < 4; i++)
+        {
+            val[i] = min(max(j + i * 10, 0), 100);
+            bat[style][i].showProgressPct(val[i]);
+            sprintf(bufferp, "%3d%%", val[i]);
+            dtostrf(3.2 + val[i] / 100.0, 4, 2, bufferv);
+            if (style==0)
+            {
+                lcd.setCursor(6+(i/2)*5-i/2, (i % 2) * 2);  
+                lcd.print(bufferp);                          
+                lcd.setCursor(1 + (i / 2) * 14, (i % 2) * 2 + 1);
+                lcd.print(bufferv);                        
+                lcd.print('v');                           
+            }
+            else
+            {
+                lcd.setCursor(i * 5 , 0);
+                lcd.print(bufferp);                           
+                lcd.setCursor(i * 5, 3);
+                lcd.print(bufferv);
+            }
+        }
+        delay(20);
+        if (millis() - lastTimeChanged > ChangeEvery)
+        {
+            lastTimeChanged = millis();
+            //change the style
+            if (style == 0)
+            {
+                style = 1;
+                dispA.setStyle(inPROGMEM(barStyleBatV));
+                lcd.clear();
+            }
+            else
+            {
+                style = 0;
+                dispA.setStyle(inPROGMEM(barStyleBat));
+                lcd.clear();
+            }
+        }
     }
-    //bat.showGauge(gauge);
-    //sprintf(buffer, "%3d", gauge);
-    delay(500);  // wait for a while 
-    lcd.clear();
-
-    bat.setWidth(6);
-    bat.setPosition(8, 1);
-    for (int gauge = 20; gauge <= 80; gauge+=10)
-    {
-        chargingAnimation(gauge);
-        //sprintf(buffer, "%3d%%", gauge);
-        //lcd.setCursor(12, 1);
-        //lcd.print(buffer);                            // print the string on the display
-        delay(100);  // wait for a while 
-    }
-
-    //gauge++;
-    //if (gauge > bat.size()+2) { gauge = 0; }
-    //if (gauge > 100) { gauge = 0; }
-
-    delay(1000);  // wait for a while 
+    delay(1000);
 }
+

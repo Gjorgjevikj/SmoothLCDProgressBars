@@ -38,10 +38,15 @@ https://github.com/Gjorgjevikj/SmoothLCDProgressBars.git
 //try to determine the LCD library included
 #if defined(LiquidCrystal_I2C_h) 
 #define LCD_OBJ LiquidCrystal_I2C
-// uses init();
+//#if defined(hd44780_h) 
+#elif defined(hd44780_I2Cexp_h)
+#define LCD_OBJ hd44780_I2Cexp
+#elif defined(hd44780_HC1627_I2C_h)
+#define LCD_OBJ hd44780_HC1627_I2C
+#elif defined(hd44780_I2Clcd_h)
+#define LCD_OBJ hd44780_I2Clcd 
 #elif defined(FDB_LIQUID_CRYSTAL_I2C_H)
 #define LCD_OBJ LiquidCrystal_I2C
-// uses begin();
 #elif defined(LiquidCrystal_h)
 #define LCD_OBJ LiquidCrystal
 #else
@@ -90,7 +95,7 @@ public:
     /// </summary>
     /// <param name="displ">the object (as created by the LiquidCrystal library) used to access the particular LCD display</param>
     /// <param name="bs">the structure defining the masks for the progress bar style stored in RAM</param>
-    BarDisplay(DISP& displ, const barstyle& bs) : disp(&displ), barStyle(&bs), styleMemPlacement(RAM) { }
+    BarDisplay(DISP& displ, const barstyle& bs) : disp(displ), barStyle(&bs), styleMemPlacement(RAM) { }
 
     /// <summary>
     /// BarDisplay constructor
@@ -99,10 +104,10 @@ public:
     /// </summary>
     /// <param name="displ">the object (as created by the LiquidCrystal library) used to access the LCD display</param>
     /// <param name="wraped">inPROGMEM wrapper object for the structure defining the masks for the progress bar style stored in FLASH</param>
-    BarDisplay(DISP& displ, const inPROGMEM& wraped) : disp(&displ), barStyle(wraped.unwrap()), styleMemPlacement(FLASH) { }
+    BarDisplay(DISP& displ, const inPROGMEM& wraped) : disp(displ), barStyle(wraped.unwrap()), styleMemPlacement(FLASH) { }
 
-    BarDisplay(DISP& displ, const barstyle* bsp) : disp(&displ), barStyle(bsp), styleMemPlacement(RAM) { }
-    BarDisplay(DISP& displ, const __FlashBarStyleHelper* bspf) : disp(&displ), barStyle(bspf), styleMemPlacement(FLASH) { }
+    BarDisplay(DISP& displ, const barstyle* bsp) : disp(displ), barStyle(bsp), styleMemPlacement(RAM) { }
+    BarDisplay(DISP& displ, const __FlashBarStyleHelper* bspf) : disp(displ), barStyle(bspf), styleMemPlacement(FLASH) { }
 
     BarDisplay(const BarDisplay&) = delete;
     BarDisplay& operator=(const BarDisplay&) = delete;
@@ -111,7 +116,7 @@ public:
     /// Access to the display object for low level functions of the LCD
     /// </summary>
     /// <returns>a pointer to the LCD display object</returns>
-    inline DISP* dsplay() const
+    inline DISP & dsplay() const
     {
         return disp;
     }
@@ -217,15 +222,15 @@ public:
         uint8_t t[barstyle::CharPatRows];
         if (styleMemPlacement == RAM) 
         {
-            craeteMask(t, xMask, mask);
+            makeCharMask(t, xMask, mask);
         }
         else // in FLASH
         {
             uint8_t tao[2][barstyle::CharPatRows];
             memcpy_P(tao, xMask, barstyle::CharPatRows << 1);
-            craeteMask(t, tao, mask);
+            makeCharMask(t, tao, mask);
         }
-        disp->createChar(udChr, t);
+        disp.createChar(udChr, t);
     }
 
 protected:
@@ -235,7 +240,7 @@ protected:
     /// <param name="out">pointer to array to hold the output bitmap</param>
     /// <param name="xMask">pointer to the AND and OR masks defining the style - the bits that always be off (margin) and the bits that will always be on (frame)</param>
     /// <param name="mask">mask (left filled with 1's) defining how much the character will actually be filled with pixels</param>
-    void craeteMask(uint8_t out[barstyle::CharPatRows], const uint8_t xMask[2][barstyle::CharPatRows], uint8_t mask) const
+    void makeCharMask(uint8_t out[barstyle::CharPatRows], const uint8_t xMask[2][barstyle::CharPatRows], uint8_t mask) const
     {
         if (styleOrientation() == barstyle::Vertical)
         {
@@ -263,13 +268,13 @@ protected:
     {
         if (styleMemPlacement == RAM)
         {
-            disp->createChar(udChr, const_cast<uint8_t*>(bitMask));
+            disp.createChar(udChr, const_cast<uint8_t*>(bitMask));
         }
         else // in FLASH
         {
             uint8_t ta[barstyle::CharPatRows];
             memcpy_P(ta, bitMask, barstyle::CharPatRows);
-            disp->createChar(udChr, ta);
+            disp.createChar(udChr, ta);
         }
     }
 
@@ -288,7 +293,7 @@ protected:
             {
                 t[i] = xMask[0][i] | xMask[1][i];
             }
-            disp->createChar(udChr, t);
+            disp.createChar(udChr, t);
         }
         else // in FLASH
         {
@@ -298,11 +303,11 @@ protected:
             {
                 tao[0][i] |= tao[1][i];
             }
-            disp->createChar(udChr, tao[0]);
+            disp.createChar(udChr, tao[0]);
         }
     }
 
-    DISP* disp; // pointer to the display object
+    DISP & disp; // pointer to the display object
     const barstyle* barStyle; // pointer to the bar style struct
     MemoryType styleMemPlacement; // where the bitmaps defining the style (barstyle*) are stored, RAM or FLASH
 };
@@ -320,8 +325,8 @@ public:
     /// <param name="_row">the row in which the progress bar starts</param>
     /// <param name="_col">the column in which the progress bar starts</param>
     /// <param name="_id">id of the progress bar 0-4 (as at most 4 can be supported simultaneously)</param>
-    BarPos(byte _len, byte _row, byte _col, byte _id = 0) 
-        : par(ProgBarPar{ _len, _row, _col, _id }) { }
+    BarPos(byte _len, byte _col, byte _row, byte _id = 0)
+        : par(ProgBarPar{ _col, _row, _len, _id }) { }
  
     /// <summary>
     /// Sets the length of the progress bar
@@ -333,24 +338,51 @@ public:
     }
 
     /// <summary>
+    /// Gets the length of the progress bar (in characters)
+    /// </summary>
+    /// <returns>the length of the progress bar in characters</returns>
+    inline int getLength() const 
+    {
+        return par.len;
+    }
+
+    /// <summary>
     /// Sets the position of the progress bar on the display
     /// the row and the column represents the position of the start character of the progress bar 
     /// (leftmost of the horizontal progress bar and the bottom one on a vertical progress bar)
     /// </summary>
     /// <param name="_row">the row in which the progress bar starts</param>
     /// <param name="_col">the column in which the progress bar starts</param>
-    inline void setPosition(byte _row, byte _col)
+    inline void setPosition(byte _col, byte _row)
     {
-        par.row = _row;
         par.col = _col;
+        par.row = _row;
+    }
+
+    /// <summary>
+    /// Returns the position of the progress bar on the display
+    /// </summary>
+    /// <returns>the column of the progress bar</returns>
+    inline uint8_t col() const 
+    {
+        return par.col;
+    }
+
+    /// <summary>
+    /// Returns the position of the progress bar on the display
+    /// </summary>
+    /// <returns>the row of the progress bar</returns>
+    inline uint8_t row() const
+    {
+        return par.row;
     }
 
 protected:
     struct ProgBarPar
     {
-        byte len : 6; // progress bar length in characters
-        byte row : 2; // row position of the progress bar
         byte col : 6; // column position of the progress bar
+        byte row : 2; // row position of the progress bar
+        byte len : 6; // progress bar length in characters
         const byte id  : 2; // progress bar number 0-3 
     } par;
 };
@@ -363,8 +395,8 @@ template < class DISP >
 class ProgressBar : public BarPos
 {
 private:
-    ProgressBar(byte _len, byte _row, byte _col, byte _id = 0)
-        : BarPos(_len, _row, _col, _id) { }
+    ProgressBar(byte _len, byte _col, byte _row, byte _id = 0)
+        : BarPos(_len, _col, _row, _id) { }
 
 public:
     /// <summary>
@@ -375,8 +407,8 @@ public:
     /// <typeparam name="row">position: the row of the start end of the progress bar</typeparam>
     /// <typeparam name="col">position: the column of the start end of the progress bar</typeparam>
     /// <typeparam name="id">the id of the progress bar (4 supported: 0-3)</typeparam>
-    ProgressBar(DISP& disp, byte _width, byte _row, byte _col, byte _pbn = 0)
-        : BarPos(_width, _row, _col, _pbn), barDisp(disp) { }
+    ProgressBar(DISP& disp, byte _width, byte _col, byte _row, byte _pbn = 0)
+        : BarPos(_width, _col, _row, _pbn), barDisp(disp) { }
 
     /// <summary>
     /// Returns the size of the progress bar in pixels (height for vertical, width for horizontal)
@@ -443,8 +475,8 @@ protected:
             barDisp.makeChar(DISP::ProgBarCharPartial + n, barDisp.getStyle().endMask, mask);
         }
 
-        barDisp.dsplay()->setCursor(par.col, par.row);
-        barDisp.dsplay()->write((val < cellDim) ? (DISP::ProgBarCharPartial + n) : DISP::ProgBarCharBegin);
+        barDisp.dsplay().setCursor(par.col, par.row);
+        barDisp.dsplay().write((val < cellDim) ? (DISP::ProgBarCharPartial + n) : DISP::ProgBarCharBegin);
 
         // show on the display 
         byte crow = par.row;
@@ -452,31 +484,31 @@ protected:
         {
             if (barStylePar.dir)
             {
-                barDisp.dsplay()->setCursor(par.col, --crow);
+                barDisp.dsplay().setCursor(par.col, --crow);
             }
-            barDisp.dsplay()->write(DISP::ProgBarCharFull);
+            barDisp.dsplay().write(DISP::ProgBarCharFull);
         }
         if (partial)
         {
             if (barStylePar.dir)
             {
-                barDisp.dsplay()->setCursor(par.col, --crow);
+                barDisp.dsplay().setCursor(par.col, --crow);
             }
-            barDisp.dsplay()->write(DISP::ProgBarCharPartial + n);
+            barDisp.dsplay().write(DISP::ProgBarCharPartial + n);
         }
         while (blank--)
         {
             if (barStylePar.dir)
             {
-                barDisp.dsplay()->setCursor(par.col, --crow);
+                barDisp.dsplay().setCursor(par.col, --crow);
             }
-            barDisp.dsplay()->write(DISP::ProgBarCharBlank);
+            barDisp.dsplay().write(DISP::ProgBarCharBlank);
         }
         if (barStylePar.dir)
         {
-            barDisp.dsplay()->setCursor(par.col, --crow);
+            barDisp.dsplay().setCursor(par.col, --crow);
         }
-        barDisp.dsplay()->write((val > (par.len - 1) * cellDim) ? (DISP::ProgBarCharPartial + n) : DISP::ProgBarCharEnd);
+        barDisp.dsplay().write((val > (par.len - 1) * cellDim) ? (DISP::ProgBarCharPartial + n) : DISP::ProgBarCharEnd);
     }
     
     //data

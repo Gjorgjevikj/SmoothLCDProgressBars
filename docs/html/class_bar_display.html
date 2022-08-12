@@ -27,7 +27,7 @@
   <td id="projectalign">
    <div id="projectname">SmoothLCDProgressBars Library<span id="projectnumber">&#160;1.0.0</span>
    </div>
-   <div id="projectbrief">Draws smooth LCD progress bars for the character based LCD displays for Arduino</div>
+   <div id="projectbrief">Displaying smooth LCD progress bars on a character based LCD displays for Arduino</div>
   </td>
  </tr>
  </tbody>
@@ -126,9 +126,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa0ae542f935bb792ec2a742838a518d7"><td class="memItemLeft" align="right" valign="top"><a id="aa0ae542f935bb792ec2a742838a518d7" name="aa0ae542f935bb792ec2a742838a518d7"></a>
 <a class="el" href="class_bar_display.html">BarDisplay</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="class_bar_display.html">BarDisplay</a> &amp;)=delete</td></tr>
 <tr class="separator:aa0ae542f935bb792ec2a742838a518d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaee267a33fc76f9bca0a6a2ecbec85a"><td class="memItemLeft" align="right" valign="top">DISP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bar_display.html#acaee267a33fc76f9bca0a6a2ecbec85a">dsplay</a> () const</td></tr>
-<tr class="memdesc:acaee267a33fc76f9bca0a6a2ecbec85a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access to the display object for low level functions of the LCD  <a href="class_bar_display.html#acaee267a33fc76f9bca0a6a2ecbec85a">More...</a><br /></td></tr>
-<tr class="separator:acaee267a33fc76f9bca0a6a2ecbec85a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6611acc751ad3ab19b778ebc7bd69043"><td class="memItemLeft" align="right" valign="top">DISP &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bar_display.html#a6611acc751ad3ab19b778ebc7bd69043">dsplay</a> () const</td></tr>
+<tr class="memdesc:a6611acc751ad3ab19b778ebc7bd69043"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access to the display object for low level functions of the LCD  <a href="class_bar_display.html#a6611acc751ad3ab19b778ebc7bd69043">More...</a><br /></td></tr>
+<tr class="separator:a6611acc751ad3ab19b778ebc7bd69043"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3af8ec1a091493b250fc56a868a195a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structbarstyle.html">barstyle</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bar_display.html#ad3af8ec1a091493b250fc56a868a195a">getStyle</a> () const</td></tr>
 <tr class="memdesc:ad3af8ec1a091493b250fc56a868a195a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access to the bar style structure  <a href="class_bar_display.html#ad3af8ec1a091493b250fc56a868a195a">More...</a><br /></td></tr>
 <tr class="separator:ad3af8ec1a091493b250fc56a868a195a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,9 +160,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () const</t
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ad6f93c8f6f187ddabdafb12af345ceca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bar_display.html#ad6f93c8f6f187ddabdafb12af345ceca">craeteMask</a> (uint8_t out[barstyle::CharPatRows], const uint8_t xMask[2][barstyle::CharPatRows], uint8_t mask) const</td></tr>
-<tr class="memdesc:ad6f93c8f6f187ddabdafb12af345ceca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepares the bitmap for making the user defined character  <a href="class_bar_display.html#ad6f93c8f6f187ddabdafb12af345ceca">More...</a><br /></td></tr>
-<tr class="separator:ad6f93c8f6f187ddabdafb12af345ceca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf517cb38e88f69bc0580b27c60123d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bar_display.html#aaf517cb38e88f69bc0580b27c60123d3">makeCharMask</a> (uint8_t out[barstyle::CharPatRows], const uint8_t xMask[2][barstyle::CharPatRows], uint8_t mask) const</td></tr>
+<tr class="memdesc:aaf517cb38e88f69bc0580b27c60123d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepares the bitmap for making the user defined character  <a href="class_bar_display.html#aaf517cb38e88f69bc0580b27c60123d3">More...</a><br /></td></tr>
+<tr class="separator:aaf517cb38e88f69bc0580b27c60123d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6ac9be118c6cb7567e60ee61a6ac92b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bar_display.html#ac6ac9be118c6cb7567e60ee61a6ac92b">createChar</a> (byte udChr, const uint8_t bitMask[barstyle::CharPatRows]) const</td></tr>
 <tr class="memdesc:ac6ac9be118c6cb7567e60ee61a6ac92b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a user defined character in the CGRAM of the LCD display using the bitmap stored in bitMask argument  <a href="class_bar_display.html#ac6ac9be118c6cb7567e60ee61a6ac92b">More...</a><br /></td></tr>
 <tr class="separator:ac6ac9be118c6cb7567e60ee61a6ac92b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,9 +172,9 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a23f274df55b00f35654e049ccd8b3ece"><td class="memItemLeft" align="right" valign="top"><a id="a23f274df55b00f35654e049ccd8b3ece" name="a23f274df55b00f35654e049ccd8b3ece"></a>
-DISP *&#160;</td><td class="memItemRight" valign="bottom"><b>disp</b></td></tr>
-<tr class="separator:a23f274df55b00f35654e049ccd8b3ece"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63d2ad7a8262b63d71eca1629af262a4"><td class="memItemLeft" align="right" valign="top"><a id="a63d2ad7a8262b63d71eca1629af262a4" name="a63d2ad7a8262b63d71eca1629af262a4"></a>
+DISP &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>disp</b></td></tr>
+<tr class="separator:a63d2ad7a8262b63d71eca1629af262a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24c5fb2a267ff99fe4d6c08b2cd3b9a2"><td class="memItemLeft" align="right" valign="top"><a id="a24c5fb2a267ff99fe4d6c08b2cd3b9a2" name="a24c5fb2a267ff99fe4d6c08b2cd3b9a2"></a>
 const <a class="el" href="structbarstyle.html">barstyle</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>barStyle</b></td></tr>
 <tr class="separator:a24c5fb2a267ff99fe4d6c08b2cd3b9a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -278,60 +278,6 @@ template&lt;class DISP  = LCD_OBJ&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad6f93c8f6f187ddabdafb12af345ceca" name="ad6f93c8f6f187ddabdafb12af345ceca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6f93c8f6f187ddabdafb12af345ceca">&#9670;&nbsp;</a></span>craeteMask()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class DISP  = LCD_OBJ&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_bar_display.html">BarDisplay</a>&lt; DISP &gt;::craeteMask </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>out</em>[barstyle::CharPatRows], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const uint8_t&#160;</td>
-          <td class="paramname"><em>xMask</em>[2][barstyle::CharPatRows], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>mask</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Prepares the bitmap for making the user defined character </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">out</td><td>pointer to array to hold the output bitmap</td></tr>
-    <tr><td class="paramname">xMask</td><td>pointer to the AND and OR masks defining the style - the bits that always be off (margin) and the bits that will always be on (frame)</td></tr>
-    <tr><td class="paramname">mask</td><td>mask (left filled with 1's) defining how much the character will actually be filled with pixels</td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="ac6ac9be118c6cb7567e60ee61a6ac92b" name="ac6ac9be118c6cb7567e60ee61a6ac92b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac6ac9be118c6cb7567e60ee61a6ac92b">&#9670;&nbsp;</a></span>createChar() <span class="overload">[1/2]</span></h2>
 
@@ -426,8 +372,8 @@ template&lt;class DISP  = LCD_OBJ&gt; </div>
 
 </div>
 </div>
-<a id="acaee267a33fc76f9bca0a6a2ecbec85a" name="acaee267a33fc76f9bca0a6a2ecbec85a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acaee267a33fc76f9bca0a6a2ecbec85a">&#9670;&nbsp;</a></span>dsplay()</h2>
+<a id="a6611acc751ad3ab19b778ebc7bd69043" name="a6611acc751ad3ab19b778ebc7bd69043"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6611acc751ad3ab19b778ebc7bd69043">&#9670;&nbsp;</a></span>dsplay()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -438,7 +384,7 @@ template&lt;class DISP  = LCD_OBJ&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">DISP * <a class="el" href="class_bar_display.html">BarDisplay</a>&lt; DISP &gt;::dsplay </td>
+          <td class="memname">DISP &amp; <a class="el" href="class_bar_display.html">BarDisplay</a>&lt; DISP &gt;::dsplay </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -534,6 +480,60 @@ template&lt;class DISP  = LCD_OBJ&gt; </div>
     <tr><td class="paramname">udChr</td><td>character code position 0-7</td></tr>
     <tr><td class="paramname">xMask</td><td>pointer to masks (AND and OR in PROGMEM) to be used when defining the character</td></tr>
     <tr><td class="paramname">mask</td><td>mask (left filled with 1's) defining how much the character will be filled</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aaf517cb38e88f69bc0580b27c60123d3" name="aaf517cb38e88f69bc0580b27c60123d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf517cb38e88f69bc0580b27c60123d3">&#9670;&nbsp;</a></span>makeCharMask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class DISP  = LCD_OBJ&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_bar_display.html">BarDisplay</a>&lt; DISP &gt;::makeCharMask </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>out</em>[barstyle::CharPatRows], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t&#160;</td>
+          <td class="paramname"><em>xMask</em>[2][barstyle::CharPatRows], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Prepares the bitmap for making the user defined character </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>pointer to array to hold the output bitmap</td></tr>
+    <tr><td class="paramname">xMask</td><td>pointer to the AND and OR masks defining the style - the bits that always be off (margin) and the bits that will always be on (frame)</td></tr>
+    <tr><td class="paramname">mask</td><td>mask (left filled with 1's) defining how much the character will actually be filled with pixels</td></tr>
   </table>
   </dd>
 </dl>

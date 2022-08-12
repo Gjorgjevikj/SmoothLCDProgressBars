@@ -16,7 +16,7 @@ static const PROGMEM struct barstyle
 static const struct barstyle
 #endif
 
-barStyleBat = {
+barStyleBat0 = {
     {
         { // lANDmask  
             0b00000,

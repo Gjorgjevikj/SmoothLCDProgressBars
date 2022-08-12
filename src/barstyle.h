@@ -53,4 +53,8 @@ struct barstyle
     } stylePar;
 };
 
+// character creator - https://tusindfryd.github.io/screenduino/
+// another character creator - https://maxpromer.github.io/LCD-Character-Creator/
+
+
 #endif //BAR_STYLE_STRUCT

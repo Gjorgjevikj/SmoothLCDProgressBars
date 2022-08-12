@@ -16,7 +16,7 @@ static const PROGMEM struct barstyle
 static const struct barstyle
 #endif
 
-barStyleV4 = {
+barStyleV1 = {
     {
         { // bottomANDmask  
             0b00100,
