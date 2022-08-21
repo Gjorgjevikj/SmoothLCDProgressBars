@@ -1,6 +1,13 @@
-under developement...
+# Notice
 
-# SmoothLCDProgressBars
+**With the publication of its succesor [SmoothProgres](https://github.com/Gjorgjevikj/SmoothProgress) library (also added to Arduino library manager),
+this library has become less usefull.**
+
+I will keep the repository opened for archive reasons, but I will not make any further development on it.
+
+---
+
+### SmoothLCDProgressBars
 
 Library for displaying smooth progress bars on the character based LCD displays for Arduino
 
@@ -14,11 +21,10 @@ Uses the user definable characters of the LCD display and can display up to 4 sm
 
 The length of the progress bar can be configured as well as the position on the LCD display. The state of the progress bar can be set as a percentage or absolute value (pixels). Supports user defineable styles of the gauges (you should define your own bitmasks). Comes with 3 different (look&feel) progress bar types - just include <BarStyleX.h> and configure the LCDProgressBar object using LCDProgressBar::setStyle(barStyle). The bitmasks can be stored in memory or in flash (PROGMEM) to save space.
 
-Known minorities:
+### Known minorities:
 - no checking of the parameters (so the gauges can act unexpectedly if odd values are passed, like negative or very big numbers) for performance reasons.
 - the borders drawn with the gauge are considered as part of the gauge (TODO: offsets...) 
 
-So here it is, hopefully someone else can find a use of it (or make a comment).
 For explanation on the usage see the comments before the functions and look at the examples.
 
 
